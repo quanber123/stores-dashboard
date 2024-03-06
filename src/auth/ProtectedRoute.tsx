@@ -1,0 +1,17 @@
+import { PropsWithChildren, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import { useAuth } from '@/context/AuthProvider';
+type ProtectedRouteProps = PropsWithChildren;
+
+export default function ProtectedRoute({ children }: ProtectedRouteProps) {
+  const [user, setUser] = useAuth();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (user === null) {
+      navigate('/login', { replace: true });
+    }
+  }, [navigate, user]);
+
+  return children;
+}
