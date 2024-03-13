@@ -16,13 +16,22 @@ type CustomizedLabel = {
   percent: number;
   index: number | string;
 };
-const PieChartData = () => {
-  const data = [
-    { name: 'Group A', value: 400 },
-    { name: 'Group B', value: 300 },
-    { name: 'Group C', value: 300 },
-    { name: 'Group D', value: 200 },
-  ];
+type Props = {
+  data: Array<{
+    _id: string;
+    total: number;
+  }>;
+};
+const CustomTooltip: React.FC<any> = ({ active, payload }) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className='bg-white shadow-md p-2 rounded-md'>
+        <p className='text-darkGray font-bold'>{payload[0].value}</p>
+      </div>
+    );
+  }
+};
+const PieChartData: React.FC<Props> = ({ data }) => {
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
   const RADIAN = Math.PI / 180;
@@ -62,7 +71,7 @@ const PieChartData = () => {
             label={renderCustomizedLabel}
             // outerRadius={80}
             fill='#8884d8'
-            dataKey='value'
+            dataKey='total'
           >
             {data.map((_, index) => (
               <Cell
@@ -72,6 +81,7 @@ const PieChartData = () => {
             ))}
           </Pie>
           <Tooltip
+            content={CustomTooltip}
             contentStyle={{
               width: 'max-content',
               height: '42px',
@@ -84,7 +94,7 @@ const PieChartData = () => {
             }}
           />
         </PieChart>
-      </ResponsiveContainer>{' '}
+      </ResponsiveContainer>
       <div className='flex justify-center items-center gap-[40px]'>
         {data.map((entry, index) => (
           <div
@@ -103,7 +113,7 @@ const PieChartData = () => {
                 marginRight: '5px',
               }}
             ></div>
-            <span>{entry.name}</span>
+            <span className='capitalize'>{entry._id}</span>
           </div>
         ))}
       </div>

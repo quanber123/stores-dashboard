@@ -5,14 +5,20 @@ import { useCallback, useMemo, useState } from 'react';
 import { TbShoppingCart, TbRefresh, TbTruck, TbCheck } from 'react-icons/tb';
 import PieChartData from '@/components/(ui)/dashboard/PieChart';
 import {
+  useGetBestSellingQuery,
   useGetTotalFiguresAmountQuery,
   useGetTotalFiguresCountQuery,
+  useGetWeeklyFiguresQuery,
 } from '@/services/redux/features/figures';
 const Figures = () => {
   const { data: figuresCount, isSuccess: isSuccessFiguresCount } =
     useGetTotalFiguresCountQuery(null);
   const { data: figuresAmount, isSuccess: isSuccessFiguresAmount } =
     useGetTotalFiguresAmountQuery(null);
+  const { data: weeklyFigures, isSuccess: isSuccessWeeklyFigures } =
+    useGetWeeklyFiguresQuery(null);
+  const { data: bestSelling, isSuccess: isSuccessBestSelling } =
+    useGetBestSellingQuery(null);
   const [currChart, setCurrChart] = useState('sales');
   const statsSquare = [
     {
@@ -166,11 +172,16 @@ const Figures = () => {
               Orders
             </button>
           </div>
-          <TinyLineChart />
+          {isSuccessWeeklyFigures && currChart === 'sales' && (
+            <TinyLineChart figures={weeklyFigures.totalSales} />
+          )}
+          {isSuccessWeeklyFigures && currChart === 'orders' && (
+            <TinyLineChart figures={weeklyFigures.totalOrders} />
+          )}
         </div>
         <div className='bg-white dark:bg-darkGray rounded-lg p-4 flex flex-col gap-[20px]'>
           <h3 className='font-bold'>Best Selling Products</h3>
-          <PieChartData />
+          {isSuccessBestSelling && <PieChartData data={bestSelling} />}
         </div>
       </div>
     </section>

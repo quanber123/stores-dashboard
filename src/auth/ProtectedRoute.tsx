@@ -5,7 +5,7 @@ import { useAuth } from '@/context/AuthProvider';
 type ProtectedRouteProps = PropsWithChildren;
 
 export default function ProtectedRoute({ children }: ProtectedRouteProps) {
-  const [user, setUser] = useAuth();
+  const [user] = useAuth();
   const navigate = useNavigate();
   useEffect(() => {
     if (user === null) {

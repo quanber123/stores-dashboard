@@ -8,24 +8,39 @@ import {
   CartesianGrid,
   Tooltip,
 } from 'recharts';
-const TinyLineChart = () => {
-  const data = [
-    { name: 'Page A', uv: 4000 },
-    { name: 'Page B', uv: 3000 },
-    { name: 'Page C', uv: 2000 },
-    { name: 'Page D', uv: 2780 },
-    { name: 'Page E', uv: 1890 },
-    { name: 'Page F', uv: 2390 },
-    { name: 'Page G', uv: 3490 },
-  ];
+type Props = {
+  figures: Array<{
+    _id: string;
+    total: number;
+  }>;
+};
+const CustomTooltip: React.FC<any> = ({ active, payload, label }) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className='bg-white shadow-md p-2 rounded-md'>
+        <p className='text-darkGray font-bold'>
+          {label} : {payload[0].value}
+        </p>
+      </div>
+    );
+  }
 
+  return null;
+};
+const TinyLineChart: React.FC<Props> = ({ figures }) => {
   return (
     <div className='text-[12px]'>
       <ResponsiveContainer height={328}>
-        <LineChart data={data}>
-          <Line type='linear' dataKey='uv' stroke='#8884d8' strokeWidth={5} />
-          <CartesianGrid />
+        <LineChart data={figures} className='cursor-pointer'>
+          <Line
+            type='linear'
+            dataKey='total'
+            stroke='#8884d8'
+            strokeWidth={3}
+          />
+          <CartesianGrid opacity={0.5} />
           <Tooltip
+            content={CustomTooltip}
             contentStyle={{
               width: 'max-content',
               height: '42px',
@@ -38,8 +53,11 @@ const TinyLineChart = () => {
               gap: '10px',
             }}
           />
-          <XAxis dataKey='name' />
-          <YAxis dataKey='uv' />
+          <XAxis dataKey='_id' />
+          <YAxis
+            dataKey='total'
+            tickFormatter={(tick) => String(Math.floor(tick))}
+          />
         </LineChart>
       </ResponsiveContainer>
     </div>
