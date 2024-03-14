@@ -25,15 +25,15 @@ const Table: React.FC<Props> = ({
   const tdHeader = useMemo(() => {
     return tHeader.map((h) => {
       return (
-        <td key={h} className='py-2'>
+        <td key={h} className='px-4 py-2'>
           {h}
         </td>
       );
     });
   }, [tHeader]);
   return (
-    <div className='rounded-lg border border-lightGray dark:border-darkGray'>
-      <table className='w-full whitespace-nowrap'>
+    <div className='w-full rounded-lg border border-lightGray dark:border-darkGray overflow-x-auto'>
+      <table className='w-full whitespace-nowrap overflow-y-auto'>
         <thead className='text-xs font-semibold tracking-wide text-left text-gray uppercase border-b border-lightGray dark:border-gray dark:text-gray dark:bg-darkGray'>
           <tr className='text-center font-bold'>{tdHeader}</tr>
         </thead>

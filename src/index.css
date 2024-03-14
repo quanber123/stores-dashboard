@@ -41,3 +41,20 @@ html {
   display: flex;
   overflow: hidden;
 }
+
+/* width */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+  background: var(--light-gray);
+  border-radius: 2px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--medium-gray);
+  border-radius: 2px;
+}

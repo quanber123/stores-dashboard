@@ -3,11 +3,17 @@ import { lazy } from 'react';
 import App from '../../App';
 import ProtectedRoute from '@/auth/ProtectedRoute';
 const LoginViews = lazy(() => import('@/views/(default)/LoginViews'));
-const DashBoardViews = lazy(() => import('@/views/DashboardViews.tsx'));
-const CatalogViews = lazy(() => import('@/views/CatalogViews.tsx'));
-const CustomersViews = lazy(() => import('@/views/CustomersViews.tsx'));
-const OrdersViews = lazy(() => import('@/views/OrdersViews.tsx'));
-const SettingsViews = lazy(() => import('@/views/SettingsViews.tsx'));
+const DashBoardViews = lazy(() => import('@/views/(logged-in)/DashboardViews'));
+const CatalogViews = lazy(() => import('@/views/(logged-in)/CatalogViews'));
+const CustomersViews = lazy(() => import('@/views/(logged-in)/CustomersViews'));
+const CustomerOrdersViews = lazy(
+  () => import('@/views/(logged-in)/CustomerOrdersViews')
+);
+const OrdersViews = lazy(() => import('@/views/(logged-in)/OrdersViews'));
+const OrderDetailsViews = lazy(
+  () => import('@/views/(logged-in)/OrderDetailsViews')
+);
+const SettingsViews = lazy(() => import('@/views/(logged-in)/SettingsViews'));
 const routes: RouteObject[] = [
   {
     path: '/',
@@ -27,11 +33,29 @@ const routes: RouteObject[] = [
       },
       {
         path: 'customers',
-        element: <CustomersViews />,
+        children: [
+          {
+            index: true,
+            element: <CustomersViews />,
+          },
+          {
+            path: ':id',
+            element: <CustomerOrdersViews />,
+          },
+        ],
       },
       {
         path: 'orders',
-        element: <OrdersViews />,
+        children: [
+          {
+            index: true,
+            element: <OrdersViews />,
+          },
+          {
+            path: ':code',
+            element: <OrderDetailsViews />,
+          },
+        ],
       },
       {
         path: 'settings',

@@ -1,4 +1,6 @@
+import { useCallback, useMemo, useState } from 'react';
 import Table from '@/components/(ui)/table/table';
+import FilterOrders from '@/components/pages/orders/filter_orders';
 import {
   useGetOrdersQuery,
   useUpdateOrderMutation,
@@ -6,17 +8,30 @@ import {
 import { status } from '@/services/redux/slice/statusSlice';
 import { formatTime } from '@/services/utils/format';
 import { Order } from '@/types/type';
-import React, { useCallback, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { FaSearchPlus } from 'react-icons/fa';
 
-const RecentOrder = () => {
-  const allStatus = useSelector(status);
+type HandleFilterFunction = (
+  search: string,
+  currStatus: string,
+  ordersLimit: number | string,
+  method: string,
+  startDate: string,
+  endDate: string
+) => void;
+const OrdersViews = () => {
   const navigate = useNavigate();
-  const [currPage, setCurrPage] = useState(1);
+  const [page, setPage] = useState(1);
+  const [search, setSearch] = useState<string>('');
+  const [currStatus, setCurrStatus] = useState<string>('');
+  const [ordersLimit, setOrdersLimit] = useState<number | string>('');
+  const [method, setMethod] = useState<string>('');
+  const [startDate, setStartDate] = useState<string>('');
+  const [endDate, setEndDate] = useState<string>('');
+  const allStatus = useSelector(status);
   const { data: ordersData, isSuccess: isSuccessOrders } = useGetOrdersQuery(
-    `page=${currPage}`
+    `page=${page}&search=${search}&status=${currStatus}&orders_limit=${ordersLimit}&method=${method}&start_date=${startDate}&end_date=${endDate}`
   );
   const [updateOrder, { isSuccess: isSuccessUpdateOrder }] =
     useUpdateOrderMutation();
@@ -32,12 +47,6 @@ const RecentOrder = () => {
       });
     },
     [isSuccessUpdateOrder]
-  );
-  const handleChangePage = useCallback(
-    (page: number) => {
-      setCurrPage(page);
-    },
-    [currPage]
   );
   const renderedOrders = useMemo(() => {
     return (
@@ -103,10 +112,29 @@ const RecentOrder = () => {
         );
       })
     );
-  }, [ordersData, isSuccessOrders]);
+  }, [isSuccessOrders, ordersData]);
+  const handleFilter: HandleFilterFunction = (
+    search,
+    status,
+    ordersLimit,
+    method,
+    startDate,
+    endDate
+  ) => {
+    setSearch(search);
+    setCurrStatus(status);
+    setOrdersLimit(ordersLimit);
+    setMethod(method);
+    setStartDate(startDate);
+    setEndDate(endDate);
+  };
+  const handleChangePage = (p: number) => {
+    setPage(p);
+  };
   return (
-    <section className='py-16 flex flex-col gap-[20px]'>
-      <h2 className='text-lg font-bold'>Recent Order</h2>
+    <main className='w-full h-full xl:ml-[256px] mt-[64px] py-8 px-16 flex flex-col gap-[40px] dark:bg-darkBlue text-darkGray dark:text-white overflow-y-scroll'>
+      <h2 className='text-lg font-bold'>Orders</h2>
+      <FilterOrders handleFilter={handleFilter} />
       {isSuccessOrders && (
         <Table
           tHeader={[
@@ -119,13 +147,13 @@ const RecentOrder = () => {
             'ACTION',
             'INVOICE',
           ]}
-          totalPage={ordersData.totalPage}
           renderedData={renderedOrders}
+          totalPage={ordersData.totalPage}
           handleChangePage={handleChangePage}
         />
       )}
-    </section>
+    </main>
   );
 };
 
-export default RecentOrder;
+export default OrdersViews;

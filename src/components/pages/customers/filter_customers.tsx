@@ -42,7 +42,7 @@ const FilterCustomer: React.FC<Props> = ({ handleFilter }) => {
             className='w-full h-[48px] py-[4px] px-[12px] dark:bg-darkBlue focus:outline-none rounded'
             type='text'
             aria-label='search-users'
-            placeholder='Search by name/email/phone'
+            placeholder='Search by name/email'
             ref={searchRef}
           />
         </div>
