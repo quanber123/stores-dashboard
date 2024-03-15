@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { TbChevronRight } from 'react-icons/tb';
 import { useNavigate } from 'react-router-dom';
 import { catalog } from './data';
