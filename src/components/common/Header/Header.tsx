@@ -2,8 +2,11 @@ import logo from '@/assets/logo-01.png.webp';
 import darkLogo from '@/assets/logo-02.png.webp';
 import { useCallback, useEffect, useState } from 'react';
 import { FaRegSun, FaRegMoon, FaRegBell } from 'react-icons/fa6';
-
-const Header = () => {
+type Props = {
+  toggleAside: boolean;
+  handleToggle: () => void;
+};
+const Header: React.FC<Props> = ({ toggleAside, handleToggle }) => {
   const [currTheme, setTheme] = useState(
     window.localStorage.getItem('cozastore-theme') || 'light'
   );
@@ -20,12 +23,12 @@ const Header = () => {
   }, [currTheme]);
   return (
     <header className='fixed w-full h-[64px] bg-white dark:bg-darkGray z-20'>
-      <div className='flex justify-between items-center py-4 pl-8 pr-32'>
+      <div className='h-full flex justify-between items-center py-4 pl-8 pr-8 lg:pr-32'>
         <img
           src={currTheme === 'dark' ? darkLogo : logo}
           alt='cozastore-logo'
         />
-        <nav className='flex items-center gap-[20px]'>
+        <nav className='flex items-center gap-[10px] lg:gap-[20px]'>
           <button className='flex items-center gap-[20px] text-xl text-green'>
             {currTheme === 'light' && (
               <FaRegSun onClick={() => toggleTheme('dark')} />
@@ -34,18 +37,40 @@ const Header = () => {
               <FaRegMoon onClick={() => toggleTheme('light')} />
             )}
           </button>
-          <button className='relative text-green'>
+          <button className='hidden lg:block relative text-green'>
             <span className='absolute -top-1/2 -left-1/3 bg-red text-white w-[20px] h-[20px] flex items-center justify-center rounded-full'>
               1
             </span>
             <FaRegBell className='text-xl' />
           </button>
           <button
-            className='w-[32px] h-[32px] rounded-full overflow-hidden'
+            className='hidden lg:block w-[32px] h-[32px] rounded-full overflow-hidden'
             aria-label='user'
           >
             <img className='w-full h-full' src={logo} alt='' />
           </button>
+          <div className='lg:hidden flex items-center gap-[10px]'>
+            <div
+              className={`relative m-auto w-[24px] h-[42px] cursor-pointer`}
+              onClick={handleToggle}
+            >
+              <span
+                className={`bars before:bg-darkGray dark:before:bg-lightGreen ${
+                  toggleAside ? 'active' : ''
+                }`}
+              ></span>
+              <span
+                className={`bars before:bg-darkGray dark:before:bg-lightGreen ${
+                  toggleAside ? 'active' : ''
+                }`}
+              ></span>
+              <span
+                className={`bars before:bg-darkGray dark:before:bg-lightGreen ${
+                  toggleAside ? 'active' : ''
+                }`}
+              ></span>
+            </div>
+          </div>
         </nav>
       </div>
     </header>

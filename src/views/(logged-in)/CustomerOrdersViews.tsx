@@ -13,7 +13,7 @@ import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 const CustomerOrdersViews = () => {
-  const { t } = useTranslation('translation');
+  const { t, i18n } = useTranslation('translation');
   const { id } = useParams();
   const allStatus = useSelector(status);
   const [currPage, setCurrPage] = useState(1);
@@ -53,10 +53,10 @@ const CustomerOrdersViews = () => {
             key={o._id}
           >
             <td className='p-4'>{o.paymentInfo.orderCode}</td>
-            <td className='p-4'>{formatTime(o.created_at)}</td>
+            <td className='p-4'>{formatTime(o.created_at, i18n.language)}</td>
             <td className='p-4'>{o.paymentInfo.address}</td>
             <td className='p-4'>{o.paymentInfo.phone}</td>
-            <td className='p-4 capitalize'>{o.paymentMethod}</td>
+            <td className='p-4 capitalize'>{t(`${o.paymentMethod}`)}</td>
             <td className='p-4'>{o.paymentInfo.totalPrice} VND</td>
             <td className='p-4'>
               <p
@@ -66,7 +66,7 @@ const CustomerOrdersViews = () => {
                   color: currStatus?.color,
                 }}
               >
-                {o.paymentInfo.status}
+                {t(`${o.paymentInfo.status}`)}
               </p>
             </td>
             <td className='p-4'>
@@ -87,7 +87,7 @@ const CustomerOrdersViews = () => {
                     value={s.name}
                     disabled={s.name !== 'processing' && s.name !== 'pending'}
                   >
-                    {s.name}
+                    {t(`${s.name}`)}
                   </option>
                 ))}
               </select>
@@ -96,21 +96,21 @@ const CustomerOrdersViews = () => {
         );
       })
     );
-  }, [ordersData, isSuccessOrders]);
+  }, [ordersData, isSuccessOrders, i18n.language]);
   return (
-    <main className='w-full h-full xl:ml-[256px] mt-[64px] py-8 px-16 flex flex-col gap-[40px] dark:bg-darkBlue text-darkGray dark:text-white overflow-y-scroll'>
+    <main className='w-full h-full lg:ml-[256px] mt-[64px] py-8 px-4 lg:px-16 flex flex-col gap-[40px] dark:bg-darkBlue text-darkGray dark:text-white overflow-y-scroll'>
       <h2 className='text-lg font-bold'>{t('customer_order_list')}</h2>
       {isSuccessOrders && ordersData.orders.length > 0 && (
         <Table
           tHeader={[
-            'INVOICE NO',
-            'ORDER TIME',
-            'SHIPPING ADDRESS',
-            'PHONE',
-            'METHOD',
-            'AMOUNT',
-            'STATUS',
-            'ACTION',
+            `${t('invoice_no')}`,
+            `${t('order_time')}`,
+            `${t('shipping_address')}`,
+            `${t('phone')}`,
+            `${t('method')}`,
+            `${t('amount')}`,
+            `${t('status')}`,
+            `${t('action')}`,
           ]}
           renderedData={renderedOrders}
           handleChangePage={handleChangePage}
@@ -118,7 +118,7 @@ const CustomerOrdersViews = () => {
         />
       )}
       {isSuccessOrders && ordersData.orders.length === 0 && (
-        <NotFoundOrders message='This Customer have no order Yet!' />
+        <NotFoundOrders message={t('message_customer_no_order')} />
       )}
     </main>
   );

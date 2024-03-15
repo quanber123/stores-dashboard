@@ -5,7 +5,7 @@ const NotFoundViews = () => {
   const navigate = useNavigate();
   const { t } = useTranslation('translation');
   return (
-    <main className='w-full h-full xl:ml-[256px] mt-[64px] py-8 px-16 flex flex-col gap-[20px] dark:bg-darkBlue text-darkGray dark:text-white overflow-y-scroll'>
+    <main className='w-full h-full lg:ml-[256px] mt-[64px] py-8 px-4 lg:px-16 flex flex-col gap-[40px] dark:bg-darkBlue text-darkGray dark:text-white overflow-y-scroll'>
       <div className='mx-auto max-w-[650px] max-h-[450px]'>
         <img className='w-full h-full' src={notfoundimg} alt='not-found' />
       </div>

@@ -63,5 +63,21 @@
   "search_by_name_email": "Search by Name/Email",
   "name": "Name",
   "provider": "Provider",
-  "joining_date": "Joining date"
+  "joining_date": "Joining date",
+  "shipping_address": "Shipping Address",
+  "phone": "Phone",
+  "message_customer_no_order": "This Customer have no order Yet!",
+  "message_no_order": "No Order Yet!",
+  "products": "Products",
+  "product_name": "Product Name",
+  "category": "Category",
+  "categories": "Categories",
+  "sale_price": "Sale Price",
+  "stock": "Stock",
+  "view": "View",
+  "published": "Published",
+  "tags": "Tags",
+  "blogs": "Blogs",
+  "coupons": "Coupons",
+  "search_product": "Search Product"
 }

@@ -150,7 +150,7 @@ const Figures = () => {
         {renderedStatsBox}
       </div>
       <div className='grid gap-4 xl:grid-cols-2 my-8'>
-        <div className='bg-white dark:bg-darkGray rounded-lg p-4 flex flex-col gap-[20px]'>
+        <div className='w-full bg-white dark:bg-darkGray rounded-lg p-4 flex flex-col gap-[20px] overflow-x-auto'>
           <h3 className='font-bold'>{t('weekly_sales')}</h3>
           <div className='flex items-center gap-[20px] border-b border-gray text-sm'>
             <button

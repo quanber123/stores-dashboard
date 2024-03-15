@@ -128,7 +128,7 @@ const RecentOrder = () => {
         />
       )}
       {isSuccessOrders && ordersData.orders.length === 0 && (
-        <NotFoundOrders message='No Order Yet!' />
+        <NotFoundOrders message={t('message_no_order')} />
       )}
     </section>
   );

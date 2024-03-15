@@ -135,29 +135,31 @@ const OrdersViews = () => {
     setPage(p);
   };
   return (
-    <main className='w-full h-full xl:ml-[256px] mt-[64px] py-8 px-16 flex flex-col gap-[40px] dark:bg-darkBlue text-darkGray dark:text-white overflow-y-scroll'>
-      <h2 className='text-lg font-bold'>Orders</h2>
+    <main className='w-full h-full lg:ml-[256px] mt-[64px] py-8 px-4 lg:px-16 flex flex-col gap-[40px] dark:bg-darkBlue text-darkGray dark:text-white overflow-y-scroll'>
+      <h2 className='text-lg font-bold'>{t('orders')}</h2>
       <FilterOrders handleFilter={handleFilter} />
-      {isSuccessOrders && ordersData.orders.length > 0 && (
-        <Table
-          tHeader={[
-            'INVOICE NO',
-            'ORDER TIME',
-            'CUSTOMER NAME',
-            'METHOD',
-            'AMOUNT',
-            'STATUS',
-            'ACTION',
-            'INVOICE',
-          ]}
-          renderedData={renderedOrders}
-          totalPage={ordersData.totalPage}
-          handleChangePage={handleChangePage}
-        />
-      )}
-      {isSuccessOrders && ordersData.orders.length === 0 && (
-        <NotFoundOrders message='No Order Yet!' />
-      )}
+      <section className='flex flex-col gap-[40px] pb-16'>
+        {isSuccessOrders && ordersData.orders.length > 0 && (
+          <Table
+            tHeader={[
+              `${t('invoice_no')}`,
+              `${t('order_time')}`,
+              `${t('customer_name')}`,
+              `${t('method')}`,
+              `${t('amount')}`,
+              `${t('status')}`,
+              `${t('action')}`,
+              `${t('invoice')}`,
+            ]}
+            renderedData={renderedOrders}
+            totalPage={ordersData.totalPage}
+            handleChangePage={handleChangePage}
+          />
+        )}
+        {isSuccessOrders && ordersData.orders.length === 0 && (
+          <NotFoundOrders message={t('message_no_order')} />
+        )}
+      </section>
     </main>
   );
 };

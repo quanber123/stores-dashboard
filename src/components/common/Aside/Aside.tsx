@@ -5,7 +5,10 @@ import { catalog } from './data';
 import { useTranslation } from 'react-i18next';
 import engFlag from '@/assets/united-kingdom.png';
 import vieFlag from '@/assets/vietnam.png';
-const Aside = () => {
+type Props = {
+  toggleAside: boolean;
+};
+const Aside: React.FC<Props> = ({ toggleAside }) => {
   const { t, i18n } = useTranslation('translation');
   const [currRouter, setCurrRouter] = useState('dashboard');
   const navigate = useNavigate();
@@ -66,7 +69,7 @@ const Aside = () => {
                   key={d.name}
                   onClick={() => handleRouter(false, d.link)}
                 >
-                  - {d.name}
+                  - {t(`${d.name}`)}
                 </li>
               );
             })}
@@ -76,7 +79,12 @@ const Aside = () => {
     );
   });
   return (
-    <aside className='fixed pt-[64px] w-[256px] h-full bg-white dark:bg-darkGray z-10'>
+    <aside
+      style={{ transition: 'width 0.2s linear' }}
+      className={`${
+        toggleAside ? 'w-[256px]' : 'w-0'
+      } fixed pt-[64px] h-full bg-white dark:bg-darkGray z-10 overflow-hidden`}
+    >
       {renderCatalog}
       <div className='flex flex-col gap-[20px] py-4 px-8 text-darkGray dark:text-white font-bold'>
         {i18n.language === 'vie' && (

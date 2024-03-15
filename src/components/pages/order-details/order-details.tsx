@@ -8,7 +8,7 @@ type Props = {
   order: Order;
 };
 const OrderDetails: React.FC<Props> = ({ order }) => {
-  const { t } = useTranslation('translation');
+  const { t, i18n } = useTranslation('translation');
   const allStatus = useSelector(status);
   const currStatus = useMemo(() => {
     return allStatus.find((s) => s.name === order.paymentInfo.status);
@@ -26,14 +26,14 @@ const OrderDetails: React.FC<Props> = ({ order }) => {
               color: currStatus?.color,
             }}
           >
-            {order.paymentInfo.status}
+            {t(`${order.paymentInfo.status}`)}
           </p>
         </div>
       </div>
       <div className='grid md:grid-cols-3 grid-cols-1'>
         <div>
           <p className='font-bold uppercase'>{t('order_time')}</p>
-          <p>{formatDate(order.created_at)}</p>
+          <p>{formatDate(order.created_at, i18n.language)}</p>
         </div>
         <div className='md:mx-auto flex flex-col'>
           <p className='font-bold uppercase'>{t('invoice_no')}</p>
@@ -78,7 +78,7 @@ const OrderDetails: React.FC<Props> = ({ order }) => {
       <div className='bg-[#fff] dark:bg-darkBlue px-2 py-8 rounded-lg grid md:grid-cols-4 grid-cols-1 gap-[20px] font-bold'>
         <div className='md:mx-auto flex flex-col gap-[8px]'>
           <p className='uppercase text-base'>{t('payment_method')}</p>
-          <p className='capitalize'>{order.paymentMethod}</p>
+          <p className='capitalize'>{t(`${order.paymentMethod}`)}</p>
         </div>
         <div className='md:mx-auto flex flex-col gap-[8px]'>
           <p className='uppercase text-base'>{t('shipping_cost')}</p>

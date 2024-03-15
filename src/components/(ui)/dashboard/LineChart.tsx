@@ -29,8 +29,8 @@ const CustomTooltip: React.FC<any> = ({ active, payload, label }) => {
 };
 const TinyLineChart: React.FC<Props> = ({ figures }) => {
   return (
-    <div className='text-[12px]'>
-      <ResponsiveContainer height={328}>
+    <div className='w-full text-[12px]'>
+      <ResponsiveContainer height={328} width={'100%'}>
         <LineChart data={figures} className='cursor-pointer'>
           <Line
             type='linear'

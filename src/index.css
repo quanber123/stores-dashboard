@@ -58,3 +58,34 @@ html {
   background: var(--medium-gray);
   border-radius: 2px;
 }
+
+.bars::before {
+  position: absolute;
+  content: '';
+  top: 50%;
+  left: 0;
+  width: 26px;
+  height: 3px;
+  transform: rotate(0);
+  transition: all 0.3s linear;
+  -webkit-transition: all 0.3s linear;
+  opacity: 1;
+  z-index: 9999;
+}
+.bars:first-child::before {
+  top: 30%;
+}
+.bars:nth-child(3):before {
+  top: 70%;
+}
+.bars.bars.active:nth-child(2)::before {
+  opacity: 0;
+}
+.bars.active:first-child::before {
+  top: 50%;
+  transform: rotate(45deg);
+}
+.bars.active:nth-child(3):before {
+  top: 50%;
+  transform: rotate(-45deg);
+}
