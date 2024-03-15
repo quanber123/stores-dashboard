@@ -35,7 +35,7 @@ const Table: React.FC<Props> = ({
     <div className='w-full rounded-lg border border-lightGray dark:border-darkGray overflow-x-auto'>
       <table className='w-full whitespace-nowrap overflow-y-auto'>
         <thead className='text-xs font-semibold tracking-wide text-left text-gray uppercase border-b border-lightGray dark:border-gray dark:text-gray dark:bg-darkGray'>
-          <tr className='text-center font-bold'>{tdHeader}</tr>
+          <tr className='text-center font-bold uppercase'>{tdHeader}</tr>
         </thead>
         <tbody>{renderedData}</tbody>
       </table>

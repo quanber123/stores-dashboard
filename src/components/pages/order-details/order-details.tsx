@@ -14,7 +14,7 @@ const OrderDetails: React.FC<Props> = ({ order }) => {
   return (
     <section className='p-8 text-darkGray dark:text-gray bg-white dark:bg-darkGray rounded-lg text-sm flex flex-col gap-[24px] overflow-y-auto'>
       <div className='pt-[16px] pb-[32px] font-bold flex flex-col gap-2 border-b border-lightGray'>
-        <p className='uppercase text-xl text-white'>Invoice</p>
+        <p className='uppercase text-xl dark:text-white'>Invoice</p>
         <div className='flex items-center gap-[20px]'>
           <p className='uppercase'>Status</p>
           <p
@@ -63,7 +63,7 @@ const OrderDetails: React.FC<Props> = ({ order }) => {
               return (
                 <tr className='font-bold' key={p._id}>
                   <td className='p-4 text-center'>{p._id}</td>
-                  <td className='p-4 text-center text-white'>{p.name}</td>
+                  <td className='p-4 text-center dark:text-white'>{p.name}</td>
                   <td className='p-4 text-center'>{p.quantity}</td>
                   <td className='p-4 text-center'>{p.price} VND</td>
                   <td className='p-4 text-center'>{p.totalPrice}</td>

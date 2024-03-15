@@ -10,8 +10,10 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { FaSearchPlus } from 'react-icons/fa';
+import { useTranslation } from 'react-i18next';
 
 const RecentOrder = () => {
+  const { t } = useTranslation('translation');
   const allStatus = useSelector(status);
   const navigate = useNavigate();
   const [currPage, setCurrPage] = useState(1);
@@ -79,7 +81,7 @@ const RecentOrder = () => {
                 data-user={o.user}
                 disabled={o.paymentInfo.status !== 'pending'}
               >
-                {allStatus.map((s) => (
+                {allStatus?.map((s) => (
                   <option
                     key={s._id}
                     value={s.name}
@@ -110,8 +112,8 @@ const RecentOrder = () => {
       {isSuccessOrders && (
         <Table
           tHeader={[
-            'INVOICE NO',
-            'ORDER TIME',
+            `${t('invoice_no')}`,
+            `${t('order_time')}`,
             'CUSTOMER NAME',
             'METHOD',
             'AMOUNT',

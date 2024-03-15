@@ -1,8 +1,10 @@
 import React, { FormEvent, useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import loginImg from '@/assets/login-office-CQRYLh9n.jpeg';
 import { useAuth } from '@/context/AuthProvider';
 import { useNavigate } from 'react-router-dom';
 const LoginViews = () => {
+  const { t } = useTranslation('translation');
   const [user, setUser] = useAuth();
   const navigate = useNavigate();
   const email = useRef<HTMLInputElement>(null);
@@ -49,7 +51,7 @@ const LoginViews = () => {
           >)}
         />
         <div className='text-white flex flex-col gap-[40px] p-12 bg-darkGray'>
-          <h1 className='text-4xl font-bold'>Login</h1>
+          <h1 className='text-4xl font-bold'>{t('login')}</h1>
           <form
             className='flex flex-col gap-[20px] border-b-2 border-white pb-16'
             onSubmit={handleSubmit}
@@ -64,7 +66,7 @@ const LoginViews = () => {
               />
             </div>
             <div className='flex flex-col gap-2 text-[#93a3af]'>
-              <label htmlFor='password'>Password</label>
+              <label htmlFor='password'>{t('password')}</label>
               <input
                 className='bg-[#374151] px-2 py-3 rounded border border-[#6b7280]'
                 type='password'
@@ -77,7 +79,7 @@ const LoginViews = () => {
               type='submit'
               disabled={loading}
             >
-              Login
+              {t('login')}
             </button>
           </form>
         </div>
