@@ -1,11 +1,22 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { TbChevronRight } from 'react-icons/tb';
 import { useNavigate } from 'react-router-dom';
 import { catalog } from './data';
+import { useTranslation } from 'react-i18next';
+import engFlag from '@/assets/united-kingdom.png';
+import vieFlag from '@/assets/vietnam.png';
 const Aside = () => {
+  const { t, i18n } = useTranslation('translation');
   const [currRouter, setCurrRouter] = useState('dashboard');
   const navigate = useNavigate();
   const [dropdown, setDropdown] = useState<null | string>(null);
+  const handleChangeLang = useCallback(
+    (lang: string) => {
+      i18n.changeLanguage(lang);
+      window.localStorage.setItem('cozastore-lang', lang);
+    },
+    [i18n]
+  );
   const handleRouter = (isDropdown: boolean, link: string) => {
     if (isDropdown) {
       if (link === dropdown) {
@@ -36,7 +47,7 @@ const Aside = () => {
         )}
         <div className='flex items-center gap-[20px]'>
           {c.icon}
-          <h3 className='font-bold'>{c.name}</h3>
+          <h3 className='font-bold'>{t(`${c.name}`)}</h3>
           {c.dropdown.length > 0 && (
             <div
               style={{ transition: 'all 0.1s linear' }}
@@ -67,6 +78,26 @@ const Aside = () => {
   return (
     <aside className='fixed pt-[64px] w-[256px] h-full bg-white dark:bg-darkGray z-10'>
       {renderCatalog}
+      <div className='flex flex-col gap-[20px] py-4 px-8 text-darkGray dark:text-white font-bold'>
+        {i18n.language === 'vie' && (
+          <button
+            className='flex items-center gap-[20px]'
+            onClick={() => handleChangeLang('eng')}
+          >
+            <img className='w-[20px] h-[20px]' src={engFlag} alt='eng-flag' />
+            <p>{t('eng')}</p>
+          </button>
+        )}
+        {i18n.language === 'eng' && (
+          <button
+            className='flex items-center gap-[20px]'
+            onClick={() => handleChangeLang('vie')}
+          >
+            <img className='w-[20px] h-[20px]' src={vieFlag} alt='vie-flag' />
+            <p>{t('vie')}</p>
+          </button>
+        )}
+      </div>
     </aside>
   );
 };

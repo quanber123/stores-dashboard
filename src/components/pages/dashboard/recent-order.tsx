@@ -11,9 +11,10 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { FaSearchPlus } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
+import NotFoundOrders from '@/components/(ui)/not-found-orders/not_found_orders';
 
 const RecentOrder = () => {
-  const { t } = useTranslation('translation');
+  const { t, i18n } = useTranslation('translation');
   const allStatus = useSelector(status);
   const navigate = useNavigate();
   const [currPage, setCurrPage] = useState(1);
@@ -54,9 +55,9 @@ const RecentOrder = () => {
             key={o._id}
           >
             <td className='p-4'>{o.paymentInfo.orderCode}</td>
-            <td className='p-4'>{formatTime(o.created_at)}</td>
+            <td className='p-4'>{formatTime(o.created_at, i18n.language)}</td>
             <td className='p-4'>{o.paymentInfo.user_name}</td>
-            <td className='p-4 capitalize'>{o.paymentMethod}</td>
+            <td className='p-4 capitalize'>{t(`${o.paymentMethod}`)}</td>
             <td className='p-4'>{o.paymentInfo.totalPrice} VND</td>
             <td className='p-4'>
               <p
@@ -66,7 +67,7 @@ const RecentOrder = () => {
                   color: currStatus?.color,
                 }}
               >
-                {o.paymentInfo.status}
+                {t(`${o.paymentInfo.status}`)}
               </p>
             </td>
             <td className='p-4'>
@@ -87,7 +88,7 @@ const RecentOrder = () => {
                     value={s.name}
                     disabled={s.name !== 'processing' && s.name !== 'pending'}
                   >
-                    {s.name}
+                    {t(`${s.name}`)}
                   </option>
                 ))}
               </select>
@@ -105,26 +106,29 @@ const RecentOrder = () => {
         );
       })
     );
-  }, [ordersData, isSuccessOrders]);
+  }, [ordersData, isSuccessOrders, i18n.language]);
   return (
     <section className='py-16 flex flex-col gap-[20px]'>
-      <h2 className='text-lg font-bold'>Recent Order</h2>
-      {isSuccessOrders && (
+      <h2 className='text-lg font-bold'>{t('recent_order')}</h2>
+      {isSuccessOrders && ordersData.orders.length > 0 && (
         <Table
           tHeader={[
             `${t('invoice_no')}`,
             `${t('order_time')}`,
-            'CUSTOMER NAME',
-            'METHOD',
-            'AMOUNT',
-            'STATUS',
-            'ACTION',
-            'INVOICE',
+            `${t('customer_name')}`,
+            `${t('method')}`,
+            `${t('amount')}`,
+            `${t('status')}`,
+            `${t('action')}`,
+            `${t('invoice')}`,
           ]}
           totalPage={ordersData.totalPage}
           renderedData={renderedOrders}
           handleChangePage={handleChangePage}
         />
+      )}
+      {isSuccessOrders && ordersData.orders.length === 0 && (
+        <NotFoundOrders message='No Order Yet!' />
       )}
     </section>
   );

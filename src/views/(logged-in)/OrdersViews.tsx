@@ -11,6 +11,8 @@ import { Order } from '@/types/type';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { FaSearchPlus } from 'react-icons/fa';
+import NotFoundOrders from '@/components/(ui)/not-found-orders/not_found_orders';
+import { useTranslation } from 'react-i18next';
 
 type HandleFilterFunction = (
   search: string,
@@ -21,6 +23,7 @@ type HandleFilterFunction = (
   endDate: string
 ) => void;
 const OrdersViews = () => {
+  const { t, i18n } = useTranslation('translation');
   const navigate = useNavigate();
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState<string>('');
@@ -61,9 +64,9 @@ const OrdersViews = () => {
             key={o._id}
           >
             <td className='p-4'>{o.paymentInfo.orderCode}</td>
-            <td className='p-4'>{formatTime(o.created_at)}</td>
+            <td className='p-4'>{formatTime(o.created_at, i18n.language)}</td>
             <td className='p-4'>{o.paymentInfo.user_name}</td>
-            <td className='p-4 capitalize'>{o.paymentMethod}</td>
+            <td className='p-4 capitalize'>{t(`${o.paymentMethod}`)}</td>
             <td className='p-4'>{o.paymentInfo.totalPrice} VND</td>
             <td className='p-4'>
               <p
@@ -73,7 +76,7 @@ const OrdersViews = () => {
                   color: currStatus?.color,
                 }}
               >
-                {o.paymentInfo.status}
+                {t(`${o.paymentInfo.status}`)}
               </p>
             </td>
             <td className='p-4'>
@@ -94,7 +97,7 @@ const OrdersViews = () => {
                     value={s.name}
                     disabled={s.name !== 'processing' && s.name !== 'pending'}
                   >
-                    {s.name}
+                    {t(`${s.name}`)}
                   </option>
                 ))}
               </select>
@@ -112,7 +115,7 @@ const OrdersViews = () => {
         );
       })
     );
-  }, [isSuccessOrders, ordersData]);
+  }, [isSuccessOrders, ordersData, i18n.language]);
   const handleFilter: HandleFilterFunction = (
     search,
     status,
@@ -135,7 +138,7 @@ const OrdersViews = () => {
     <main className='w-full h-full xl:ml-[256px] mt-[64px] py-8 px-16 flex flex-col gap-[40px] dark:bg-darkBlue text-darkGray dark:text-white overflow-y-scroll'>
       <h2 className='text-lg font-bold'>Orders</h2>
       <FilterOrders handleFilter={handleFilter} />
-      {isSuccessOrders && (
+      {isSuccessOrders && ordersData.orders.length > 0 && (
         <Table
           tHeader={[
             'INVOICE NO',
@@ -151,6 +154,9 @@ const OrdersViews = () => {
           totalPage={ordersData.totalPage}
           handleChangePage={handleChangePage}
         />
+      )}
+      {isSuccessOrders && ordersData.orders.length === 0 && (
+        <NotFoundOrders message='No Order Yet!' />
       )}
     </main>
   );

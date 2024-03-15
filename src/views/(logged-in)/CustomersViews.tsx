@@ -6,7 +6,9 @@ import { User } from '@/types/type';
 import { formatDate } from '@/services/utils/format';
 import { FaSearchPlus } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 const CustomersViews = () => {
+  const { t, i18n } = useTranslation('translation');
   const navigate = useNavigate();
   const [type, setType] = useState('oauth');
   const [page, setPage] = useState(1);
@@ -23,7 +25,7 @@ const CustomersViews = () => {
             key={c._id}
           >
             <td className='p-4'>{c.id}</td>
-            <td className='p-4'>{formatDate(c.created_at)}</td>
+            <td className='p-4'>{formatDate(c.created_at, i18n.language)}</td>
             <td className='p-4'>{c.name}</td>
             <td className='p-4'>{c.email ? c.email : 'null'}</td>
             <td className='p-4 capitalize'>
@@ -42,7 +44,7 @@ const CustomersViews = () => {
         );
       })
     );
-  }, [customersData, isSuccessCustomers]);
+  }, [customersData, isSuccessCustomers, i18n.language]);
   const handleFilter = (t: string, s: string) => {
     setType(t);
     setSearch(s);
@@ -57,11 +59,11 @@ const CustomersViews = () => {
         <Table
           tHeader={[
             'ID',
-            'JOINING DATE',
-            'NAME',
+            `${t('joining_date')}`,
+            `${t('name')}`,
             'EMAIL',
-            'Provider',
-            'ACTIONS',
+            `${t('provider')}`,
+            `${t('action')}`,
           ]}
           renderedData={renderedCustomers}
           totalPage={customersData.totalPage}

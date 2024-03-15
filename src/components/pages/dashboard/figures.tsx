@@ -10,7 +10,9 @@ import {
   useGetTotalFiguresCountQuery,
   useGetWeeklyFiguresQuery,
 } from '@/services/redux/features/figures';
+import { useTranslation } from 'react-i18next';
 const Figures = () => {
+  const { t } = useTranslation('translation');
   const { data: figuresCount, isSuccess: isSuccessFiguresCount } =
     useGetTotalFiguresCountQuery(null);
   const { data: figuresAmount, isSuccess: isSuccessFiguresAmount } =
@@ -22,7 +24,7 @@ const Figures = () => {
   const [currChart, setCurrChart] = useState('sales');
   const statsSquare = [
     {
-      name: 'Today Orders',
+      name: `${t('today_orders')}`,
       color: 'bg-lightGreen',
       number:
         (isSuccessFiguresAmount && figuresAmount.amountToday[0]?.totalAmount) ||
@@ -32,7 +34,7 @@ const Figures = () => {
         null,
     },
     {
-      name: 'Yesterday Orders',
+      name: `${t('yesterday_orders')}`,
       color: 'bg-yellow',
       number:
         (isSuccessFiguresAmount &&
@@ -44,7 +46,7 @@ const Figures = () => {
         null,
     },
     {
-      name: 'This Month',
+      name: `${t('thismonth_orders')}`,
       color: 'bg-blue',
       number:
         (isSuccessFiguresAmount &&
@@ -56,7 +58,7 @@ const Figures = () => {
         null,
     },
     {
-      name: 'Last Month',
+      name: `${t('lastmonth_orders')}`,
       color: 'bg-mdBlue',
       number:
         (isSuccessFiguresAmount &&
@@ -68,7 +70,7 @@ const Figures = () => {
         null,
     },
     {
-      name: 'All-Time Sales',
+      name: `${t('all_time_sales')}`,
       color: 'bg-green',
       number:
         (isSuccessFiguresAmount &&
@@ -82,25 +84,25 @@ const Figures = () => {
   ];
   const statsBox = [
     {
-      name: 'Total Orders',
+      name: `${t('total_orders')}`,
       color: 'bg-orange',
       number: isSuccessFiguresCount && figuresCount.totalOrders,
       icon: <TbShoppingCart className='text-white' />,
     },
     {
-      name: 'Orders Pending',
+      name: `${t('orders_pending')}`,
       color: 'bg-blue',
       number: isSuccessFiguresCount && figuresCount.pendingOrders,
       icon: <TbRefresh className='text-white' />,
     },
     {
-      name: 'Orders Processing',
+      name: `${t('orders_processing')}`,
       color: 'bg-cyan',
       number: isSuccessFiguresCount && figuresCount.processingOrders,
       icon: <TbTruck className='text-white' />,
     },
     {
-      name: 'Orders Delivered',
+      name: `${t('orders_delivered')}`,
       color: 'bg-lightGreen',
       number: isSuccessFiguresCount && figuresCount.deliveredOrders,
       icon: <TbCheck className='text-white' />,
@@ -140,7 +142,7 @@ const Figures = () => {
   );
   return (
     <section className='flex flex-col gap-[40px]'>
-      <h2 className='text-lg font-bold'>DashBoard Overview</h2>
+      <h2 className='text-lg font-bold'>{t('dashboard_overview')}</h2>
       <div className='grid gap-2 mb-8 xl:grid-cols-5 md:grid-cols-2'>
         {renderedStatsSquare}
       </div>
@@ -149,27 +151,27 @@ const Figures = () => {
       </div>
       <div className='grid gap-4 xl:grid-cols-2 my-8'>
         <div className='bg-white dark:bg-darkGray rounded-lg p-4 flex flex-col gap-[20px]'>
-          <h3 className='font-bold'>Weekly Sales</h3>
+          <h3 className='font-bold'>{t('weekly_sales')}</h3>
           <div className='flex items-center gap-[20px] border-b border-gray text-sm'>
             <button
-              className={`w-[54px] pb-2 ${
+              className={`w-[72px] pb-2 ${
                 currChart === 'sales'
                   ? 'text-lightGreen border-b-2 border-lightGreen'
                   : ''
               }`}
               onClick={() => toggleChart('sales')}
             >
-              Sales
+              {t('sales')}
             </button>
             <button
-              className={`w-[54px] pb-2 ${
+              className={`w-[72px] pb-2 ${
                 currChart === 'orders'
                   ? 'text-lightGreen border-b-2 border-lightGreen'
                   : ''
               }`}
               onClick={() => toggleChart('orders')}
             >
-              Orders
+              {t('orders')}
             </button>
           </div>
           {isSuccessWeeklyFigures && currChart === 'sales' && (
@@ -180,7 +182,7 @@ const Figures = () => {
           )}
         </div>
         <div className='bg-white dark:bg-darkGray rounded-lg p-4 flex flex-col gap-[20px]'>
-          <h3 className='font-bold'>Best Selling Products</h3>
+          <h3 className='font-bold'>{t('best_selling_products')}</h3>
           {isSuccessBestSelling && <PieChartData data={bestSelling} />}
         </div>
       </div>

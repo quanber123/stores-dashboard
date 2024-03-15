@@ -2,60 +2,59 @@ import { TiThLargeOutline, TiCompass } from 'react-icons/ti';
 import { TbBrandReact } from 'react-icons/tb';
 import { LuUsers } from 'react-icons/lu';
 import { MdOutlineSettings } from 'react-icons/md';
-
 export const catalog = [
   {
     link: 'dashboard',
-    name: 'DashBoard',
+    name: 'dashboard',
     icon: <TiThLargeOutline className='text-xl' />,
     isDropdown: false,
     dropdown: [],
   },
   {
     link: '',
-    name: 'Catalog',
+    name: 'catalog',
     icon: <TbBrandReact className='text-xl' />,
     isDropdown: true,
     dropdown: [
       {
         link: 'products',
-        name: 'Products',
+        name: 'products',
       },
       {
         link: 'categories',
-        name: 'Categories',
+        name: 'categories',
       },
       {
         link: 'tags',
-        name: 'Tags',
+        name: 'tags',
       },
       {
         link: 'blogs',
-        name: 'Blogs',
+        name: 'blogs',
       },
       {
         link: 'coupons',
-        name: 'Coupons',
+        name: 'coupons',
       },
     ],
   },
   {
     link: 'customers',
-    name: 'Customers',
+    name: 'customers',
     icon: <LuUsers className='text-xl' />,
     isDropdown: false,
     dropdown: [],
   },
   {
     link: 'orders',
-    name: 'Orders',
+    name: 'orders',
     icon: <TiCompass className='text-xl' />,
     isDropdown: false,
     dropdown: [],
   },
   {
     link: 'settings',
-    name: 'Settings',
+    name: 'settings',
     icon: <MdOutlineSettings className='text-xl' />,
     isDropdown: false,
     dropdown: [],

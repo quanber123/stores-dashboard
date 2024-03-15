@@ -14,6 +14,7 @@ const OrderDetailsViews = lazy(
   () => import('@/views/(logged-in)/OrderDetailsViews')
 );
 const SettingsViews = lazy(() => import('@/views/(logged-in)/SettingsViews'));
+const NotFoundViews = lazy(() => import('@/views/(default)/NotFoundViews'));
 const routes: RouteObject[] = [
   {
     path: '/',
@@ -60,6 +61,10 @@ const routes: RouteObject[] = [
       {
         path: 'settings',
         element: <SettingsViews />,
+      },
+      {
+        path: '*',
+        element: <NotFoundViews />,
       },
     ],
   },

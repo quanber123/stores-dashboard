@@ -1,3 +1,4 @@
+import NotFoundOrders from '@/components/(ui)/not-found-orders/not_found_orders';
 import Table from '@/components/(ui)/table/table';
 import {
   useGetAllOrdersByUserIdQuery,
@@ -7,10 +8,12 @@ import { status } from '@/services/redux/slice/statusSlice';
 import { formatTime } from '@/services/utils/format';
 import { Order } from '@/types/type';
 import { useCallback, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 const CustomerOrdersViews = () => {
+  const { t } = useTranslation('translation');
   const { id } = useParams();
   const allStatus = useSelector(status);
   const [currPage, setCurrPage] = useState(1);
@@ -96,8 +99,8 @@ const CustomerOrdersViews = () => {
   }, [ordersData, isSuccessOrders]);
   return (
     <main className='w-full h-full xl:ml-[256px] mt-[64px] py-8 px-16 flex flex-col gap-[40px] dark:bg-darkBlue text-darkGray dark:text-white overflow-y-scroll'>
-      <h2 className='text-lg font-bold'>Customer Order List</h2>
-      {isSuccessOrders && (
+      <h2 className='text-lg font-bold'>{t('customer_order_list')}</h2>
+      {isSuccessOrders && ordersData.orders.length > 0 && (
         <Table
           tHeader={[
             'INVOICE NO',
@@ -113,6 +116,9 @@ const CustomerOrdersViews = () => {
           handleChangePage={handleChangePage}
           totalPage={ordersData.totalPage}
         />
+      )}
+      {isSuccessOrders && ordersData.orders.length === 0 && (
+        <NotFoundOrders message='This Customer have no order Yet!' />
       )}
     </main>
   );
