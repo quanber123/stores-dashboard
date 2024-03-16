@@ -13,7 +13,7 @@ export const productsApi = createApi({
       }),
       getCoupons: builder.query({
         query: (query) => `coupons?${query}`,
-        providesTags: (result) => providesList(result, 'products'),
+        providesTags: (result) => providesList(result, 'coupons'),
       }),
       postCoupon: builder.mutation({
         query: (body) => ({

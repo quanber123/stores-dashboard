@@ -2,7 +2,6 @@ import { ModalContext } from '@/components/modal/context/modalContext';
 import {
   useDeleteCouponsMutation,
   usePublishedCouponsMutation,
-  useUpdateCouponsMutation,
 } from '@/services/redux/features/products';
 import { formatTime } from '@/services/utils/format';
 import { Coupon } from '@/types/type';
