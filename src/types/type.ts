@@ -60,3 +60,31 @@ export type User = {
   created_at: string;
   oauthProvider: string | null;
 };
+
+export type Coupon = {
+  _id: string;
+  id: string;
+  name: string;
+  image: string;
+  discount: number;
+  max_discount: number;
+  min_amount: number;
+  category: Category;
+  tags: Tag[];
+  startDate: string;
+  endDate: string;
+  expired: boolean;
+  published: boolean;
+};
+
+export type Category = {
+  _id: string;
+  name: string;
+  image: string;
+  description: 'srping 2018';
+};
+
+export type Tag = {
+  _id: string;
+  name: string;
+};

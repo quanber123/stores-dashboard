@@ -5,11 +5,12 @@ import Aside from './components/common/Aside/Aside';
 import { useGetStatusQuery } from './services/redux/features/figures';
 import { useDispatch } from 'react-redux';
 import { setStatus } from './services/redux/slice/statusSlice';
+import LoadingViews from './views/(default)/LoadingViews';
 const App = () => {
   const dispatch = useDispatch();
   const { data: statusData, isSuccess: isSuccessStatus } =
     useGetStatusQuery(null);
-  const [toggleAside, setToggleAside] = useState(false);
+  const [toggleAside, setToggleAside] = useState(true);
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 1024) {
@@ -30,7 +31,7 @@ const App = () => {
     dispatch(setStatus(statusData));
   }, [isSuccessStatus]);
   return (
-    <Suspense fallback={<div>...Loading</div>}>
+    <Suspense fallback={<LoadingViews />}>
       <Header toggleAside={toggleAside} handleToggle={handleToggle} />
       <Aside toggleAside={toggleAside} />
       <Outlet />

@@ -4,7 +4,8 @@ import App from '../../App';
 import ProtectedRoute from '@/auth/ProtectedRoute';
 const LoginViews = lazy(() => import('@/views/(default)/LoginViews'));
 const DashBoardViews = lazy(() => import('@/views/(logged-in)/DashboardViews'));
-const CatalogViews = lazy(() => import('@/views/(logged-in)/CatalogViews'));
+const CouponsViews = lazy(() => import('@/views/(logged-in)/CouponsViews'));
+const ProductsViews = lazy(() => import('@/views/(logged-in)/ProductsViews'));
 const CustomersViews = lazy(() => import('@/views/(logged-in)/CustomersViews'));
 const CustomerOrdersViews = lazy(
   () => import('@/views/(logged-in)/CustomerOrdersViews')
@@ -29,8 +30,12 @@ const routes: RouteObject[] = [
         element: <DashBoardViews />,
       },
       {
-        path: 'catalog',
-        element: <CatalogViews />,
+        path: 'products',
+        element: <ProductsViews />,
+      },
+      {
+        path: 'coupons',
+        element: <CouponsViews />,
       },
       {
         path: 'customers',

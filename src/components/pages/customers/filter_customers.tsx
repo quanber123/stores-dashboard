@@ -27,7 +27,6 @@ const FilterCustomer: React.FC<Props> = ({ handleFilter }) => {
 
   return (
     <section className='flex flex-col gap-[40px]'>
-      <h2 className='text-lg font-bold'>{t('customers')}</h2>
       <div className='w-full rounded-lg bg-white dark:bg-darkGray px-4 py-6 grid gap-4 lg:gap-6 xl:gap-6 md:flex xl:flex'>
         <div className='w-full h-[48px]'>
           <select

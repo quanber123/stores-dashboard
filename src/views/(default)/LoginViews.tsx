@@ -40,9 +40,10 @@ const LoginViews = () => {
     // }
   };
   return (
-    <main className='bg-darkBlue min-h-[100vh] w-full flex justify-center items-center p-6 overflow-hidden'>
-      <section className='grid md:grid-cols-2 shadow-xl h-32 md:h-auto md:w-1/2 overflow-hidden rounded-lg'>
+    <main className='bg-darkBlue min-h-[100vh] w-full flex justify-center items-center p-4 lg:p-6 overflow-hidden'>
+      <section className='w-full grid lg:grid-cols-2 shadow-xl md:h-auto md:w-1/2 overflow-hidden rounded-lg'>
         <img
+          className='lg:block hidden h-full'
           src={loginImg}
           alt='login-img'
           {...({ fetchpriority: 'high' } as React.DetailedHTMLProps<
@@ -50,7 +51,7 @@ const LoginViews = () => {
             HTMLImageElement
           >)}
         />
-        <div className='text-white flex flex-col gap-[40px] p-12 bg-darkGray'>
+        <div className='text-white flex flex-col gap-[40px] py-12 px-4 md:p-12 bg-darkGray'>
           <h1 className='text-4xl font-bold'>{t('login')}</h1>
           <form
             className='flex flex-col gap-[20px] border-b-2 border-white pb-16'

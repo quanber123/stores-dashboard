@@ -11,7 +11,7 @@ export const catalog = [
     dropdown: [],
   },
   {
-    link: '',
+    link: 'catalog',
     name: 'catalog',
     icon: <TbBrandReact className='text-xl' />,
     isDropdown: true,
