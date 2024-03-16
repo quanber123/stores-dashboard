@@ -6,16 +6,22 @@ import {
   useEffect,
   useRef,
 } from 'react';
-// type AlertModalState = {
-//   status: string;
-//   message: string;
-// };
+type AlertModalState = {
+  icon: any;
+  question: any;
+  description: string;
+  messCancel: string;
+  messAccept: string;
+  acceptFunc: () => void;
+  loading: boolean;
+};
 // type ConfirmModalState = {
 //   message: string;
 //   function: () => void;
 // };
 type InitialState = {
   visibleAddCouponModal: boolean;
+  visibleAlertModal: AlertModalState;
 };
 const SET_VISIBLE_MODAL = 'SET_VISIBLE_MODAL';
 const CLOSE_ALL_MODAL = 'CLOSE_ALL_MODAL';

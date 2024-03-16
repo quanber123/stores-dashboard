@@ -13,7 +13,7 @@ export const productsApi = createApi({
       }),
       getCoupons: builder.query({
         query: (query) => `coupons?${query}`,
-        providesTags: ['products', 'coupons'],
+        providesTags: (result) => providesList(result, 'products'),
       }),
       postCoupon: builder.mutation({
         query: (body) => ({
@@ -23,16 +23,29 @@ export const productsApi = createApi({
         }),
         invalidatesTags: ['coupons', 'products'],
       }),
-      updateCoupons: builder.mutation({
-        query: (id) => ({
-          url: `sales/${id}`,
+      publishedCoupons: builder.mutation({
+        query: ({ id, published }) => ({
+          url: `coupons_toggle_published/${id}`,
           method: 'PUT',
+          body: {
+            published: published,
+          },
+        }),
+        invalidatesTags: ['products', 'coupons'],
+      }),
+      updateCoupons: builder.mutation({
+        query: ({ id, body }) => ({
+          url: `coupons/${id}`,
+          method: 'PUT',
+          body: {
+            body,
+          },
         }),
         invalidatesTags: ['products', 'coupons'],
       }),
       deleteCoupons: builder.mutation({
         query: (id) => ({
-          url: `sales/${id}`,
+          url: `coupons/${id}`,
           method: 'DELETE',
         }),
         invalidatesTags: ['products', 'coupons'],
@@ -45,6 +58,7 @@ export const {
   useGetProductsQuery,
   useGetCouponsQuery,
   usePostCouponMutation,
+  usePublishedCouponsMutation,
   useUpdateCouponsMutation,
   useDeleteCouponsMutation,
 } = productsApi;

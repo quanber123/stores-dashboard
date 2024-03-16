@@ -132,3 +132,7 @@ html {
       10px 50px;
   }
 }
+
+button:focus {
+  outline: none;
+}

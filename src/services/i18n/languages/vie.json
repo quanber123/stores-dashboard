@@ -99,5 +99,9 @@
   "validate_category": "Danh mục là bắt buộc!",
   "validate_tags": "Các nhãn là bắt buộc!",
   "active": "Hoạt động",
-  "expired": "Hết hạn"
+  "expired": "Hết hạn",
+  "mess_del": "Bạn đã chắc chắn! Muốn xóa ",
+  "des_del": "Bạn có thực sự muốn xóa những bản ghi này? Bạn không thể xem cái này trong danh sách của mình nữa nếu bạn xóa!",
+  "mess_cancel": "Không, Giữ lại",
+  "mess_accept_del": "Có, Chắc chắn Xóa"
 }

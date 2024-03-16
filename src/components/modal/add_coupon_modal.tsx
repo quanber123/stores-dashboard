@@ -90,7 +90,7 @@ const AddCouponModal = () => {
         data.append('discount', form.discount);
         data.append('max_discount', form.max_discount);
         data.append('min_amount', form.min_amount);
-        data.append('category', category._id || '');
+        data.append('category', category._id);
         data.append('tags', JSON.stringify(tags));
         data.append('published', JSON.stringify(form.published));
         data.append('startDate', form.campaign_start_time);
@@ -100,7 +100,7 @@ const AddCouponModal = () => {
         setErrValidate(true);
       }
     },
-    [form, isSuccessCategories, isSuccessTags]
+    [form, isSuccessCategories, isSuccessTags, categoriesData, tagsData]
   );
   const handleChangeForm = useCallback(
     (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -151,7 +151,7 @@ const AddCouponModal = () => {
         );
       })
     );
-  }, [isSuccessCategories, categoriesData]);
+  }, [isSuccessCategories, categoriesData, form.category]);
   const renderedTags = useMemo(() => {
     return (
       isSuccessTags &&
@@ -185,6 +185,7 @@ const AddCouponModal = () => {
         campaign_start_time: '',
         campaign_end_time: '',
       });
+      setSelectedImage(null);
       setVisibleModal('visibleAddCouponModal');
     }
   }, [isSuccessPostCoupon]);

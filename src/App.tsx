@@ -1,4 +1,4 @@
-import { Suspense, useCallback, useEffect, useState } from 'react';
+import { Suspense, lazy, useCallback, useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import Header from '@/components/common/Header/Header';
 import Aside from './components/common/Aside/Aside';
@@ -6,6 +6,7 @@ import { useGetStatusQuery } from './services/redux/features/figures';
 import { useDispatch } from 'react-redux';
 import { setStatus } from './services/redux/slice/statusSlice';
 import LoadingViews from './views/(default)/LoadingViews';
+const AlertModal = lazy(() => import('@/components/modal/alert_modal'));
 const App = () => {
   const dispatch = useDispatch();
   const { data: statusData, isSuccess: isSuccessStatus } =
@@ -35,6 +36,7 @@ const App = () => {
       <Header toggleAside={toggleAside} handleToggle={handleToggle} />
       <Aside toggleAside={toggleAside} />
       <Outlet />
+      <AlertModal />
     </Suspense>
   );
 };

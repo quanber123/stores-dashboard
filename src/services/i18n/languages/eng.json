@@ -99,5 +99,9 @@
   "validate_category": "Category is required!",
   "validate_tags": "Tags are required!",
   "active": "Active",
-  "expired": "Expired"
+  "expired": "Expired",
+  "mess_del": "Are You Sure! Want to Delete",
+  "des_del": "Do you really want to delete these records? You can't view this in your list anymore if you delete!",
+  "mess_cancel": "No, Keep it",
+  "mess_accept_del": "Yes, Delete It"
 }
