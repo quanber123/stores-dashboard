@@ -104,5 +104,17 @@
   "mess_del": "Bạn đã chắc chắn! Muốn xóa ",
   "des_del": "Bạn có thực sự muốn xóa những bản ghi này? Bạn không thể xem cái này trong danh sách của mình nữa nếu bạn xóa!",
   "mess_cancel": "Không, Giữ lại",
-  "mess_accept_del": "Có, Chắc chắn Xóa"
+  "mess_accept_del": "Có, Chắc chắn Xóa",
+  "message_no_coupons": "Chưa có mã giảm giá!",
+  "message_no_customers": "Chưa có người dùng!",
+  "message_no_banners": "Chưa có biểu ngữ!",
+  "message_no_categories": "Chưa có danh mục!",
+  "sub_content": "Nội dung phụ",
+  "content": "Nội dung",
+  "img": "Ảnh",
+  "add_banner": "Thêm biểu ngữ",
+  "mess_add_banner": "Thêm biểu ngữ của bạn và thông tin cần thiết từ đây",
+  "add_category": "Thêm danh mục",
+  "mess_add_category": "Thêm danh mục và thông tin cần thiết từ đây",
+  "description": "Mô tả"
 }

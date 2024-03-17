@@ -1,4 +1,4 @@
-import NotFoundOrders from '@/components/(ui)/not-found-orders/not_found_orders';
+import NotFoundItem from '@/components/(ui)/not-found-item/not_found_item';
 import Table from '@/components/(ui)/table/table';
 import CustomerOrdersDetails from '@/components/pages/customer-oders-details/customer_orders_details';
 import { useGetAllOrdersByUserIdQuery } from '@/services/redux/features/orders';
@@ -48,7 +48,7 @@ const CustomerOrdersViews = () => {
         />
       )}
       {isSuccessOrders && ordersData.orders.length === 0 && (
-        <NotFoundOrders message={t('message_customer_no_order')} />
+        <NotFoundItem message={t('message_customer_no_order')} />
       )}
     </>
   );

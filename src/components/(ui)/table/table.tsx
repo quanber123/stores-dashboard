@@ -5,8 +5,8 @@ import { TbChevronLeft, TbChevronRight } from 'react-icons/tb';
 type Props = {
   tHeader: string[];
   renderedData: any;
-  totalPage: number;
-  handleChangePage: any;
+  totalPage?: number;
+  handleChangePage?: any;
 };
 const Table: React.FC<Props> = ({
   tHeader,
@@ -39,7 +39,7 @@ const Table: React.FC<Props> = ({
         </thead>
         <tbody>{renderedData}</tbody>
       </table>
-      {totalPage > 1 && (
+      {totalPage && totalPage > 1 && (
         <ReactPaginate
           forcePage={currPage}
           className='my-2 mx-4 flex justify-end items-center gap-[10px] font-bold text-darkGray dark:text-white py-2'

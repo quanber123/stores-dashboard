@@ -7,6 +7,7 @@ import { Coupon } from '@/types/type';
 import AddCouponModal from '@/components/modal/add_coupon_modal';
 import { ModalContext } from '@/components/modal/context/modalContext';
 import Coupons from '@/components/pages/coupons/coupons';
+import NotFoundItem from '@/components/(ui)/not-found-item/not_found_item';
 const CouponsViews = () => {
   const { t, i18n } = useTranslation('translation');
   const { setVisibleModal } = useContext(ModalContext);
@@ -54,6 +55,9 @@ const CouponsViews = () => {
           handleChangePage={handleChangePage}
           totalPage={couponsData.totalPage}
         />
+      )}
+      {isSuccessCoupons && couponsData.coupons.length === 0 && (
+        <NotFoundItem message={t('message_no_coupons')} />
       )}
     </>
   );

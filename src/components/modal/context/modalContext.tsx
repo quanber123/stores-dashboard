@@ -22,6 +22,8 @@ type AlertModalState = {
 type InitialState = {
   visibleAddCouponModal: boolean;
   visibleAlertModal: AlertModalState;
+  visibleAddBannerModal: boolean;
+  visibleAddCategoryModal: boolean;
 };
 const SET_VISIBLE_MODAL = 'SET_VISIBLE_MODAL';
 const CLOSE_ALL_MODAL = 'CLOSE_ALL_MODAL';

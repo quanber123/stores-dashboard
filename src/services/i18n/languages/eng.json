@@ -104,5 +104,17 @@
   "mess_del": "Are You Sure! Want to Delete",
   "des_del": "Do you really want to delete these records? You can't view this in your list anymore if you delete!",
   "mess_cancel": "No, Keep it",
-  "mess_accept_del": "Yes, Delete It"
+  "mess_accept_del": "Yes, Delete It",
+  "message_no_coupons": "No Coupon Yet!",
+  "message_no_customers": "No Customer Yet!",
+  "message_no_banners": "No Banner Yet!",
+  "message_no_categories": "No Category Yet!",
+  "sub_content": "Sub content",
+  "content": "Content",
+  "img": "Image",
+  "add_banner": "Add banner",
+  "mess_add_banner": "Add banner coupon and necessary information from here",
+  "add_category": "Add category",
+  "mess_add_category": "Add category and necessary information from here",
+  "description": "Description"
 }

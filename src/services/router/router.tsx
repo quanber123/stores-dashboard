@@ -5,8 +5,11 @@ import ProtectedRoute from '@/auth/ProtectedRoute';
 const LoginViews = lazy(() => import('@/views/(default)/LoginViews'));
 const DashBoardViews = lazy(() => import('@/views/(logged-in)/DashboardViews'));
 const CouponsViews = lazy(() => import('@/views/(logged-in)/CouponsViews'));
-const BannerViews = lazy(() => import('@/views/(logged-in)/ProductsViews'));
+const BannerViews = lazy(() => import('@/views/(logged-in)/BannerViews'));
 const ProductsViews = lazy(() => import('@/views/(logged-in)/ProductsViews'));
+const CategoriesViews = lazy(
+  () => import('@/views/(logged-in)/CategoriesViews')
+);
 const CustomersViews = lazy(() => import('@/views/(logged-in)/CustomersViews'));
 const CustomerOrdersViews = lazy(
   () => import('@/views/(logged-in)/CustomerOrdersViews')
@@ -37,6 +40,10 @@ const routes: RouteObject[] = [
       {
         path: 'products',
         element: <ProductsViews />,
+      },
+      {
+        path: 'categories',
+        element: <CategoriesViews />,
       },
       {
         path: 'coupons',

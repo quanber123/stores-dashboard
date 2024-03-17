@@ -11,6 +11,14 @@ export const labelApi = createApi({
         query: () => 'categories',
         providesTags: (result) => providesList(result, 'categories'),
       }),
+      postCategory: builder.mutation({
+        query: (body) => ({
+          url: 'categories',
+          method: 'POST',
+          body: body,
+        }),
+        invalidatesTags: ['categories'],
+      }),
       getTags: builder.query({
         query: () => 'tags',
         providesTags: (result) => providesList(result, 'tags'),
@@ -19,4 +27,8 @@ export const labelApi = createApi({
   },
 });
 
-export const { useGetCategoriesQuery, useGetTagsQuery } = labelApi;
+export const {
+  useGetCategoriesQuery,
+  usePostCategoryMutation,
+  useGetTagsQuery,
+} = labelApi;

@@ -3,7 +3,7 @@ import Table from '@/components/(ui)/table/table';
 import FilterOrders from '@/components/pages/orders/filter_orders';
 import { useGetOrdersQuery } from '@/services/redux/features/orders';
 import { Order } from '@/types/type';
-import NotFoundOrders from '@/components/(ui)/not-found-orders/not_found_orders';
+import NotFoundOrders from '@/components/(ui)/not-found-item/not_found_item';
 import { useTranslation } from 'react-i18next';
 import Orders from '@/components/pages/orders/orders';
 

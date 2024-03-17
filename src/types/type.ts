@@ -79,12 +79,22 @@ export type Coupon = {
 
 export type Category = {
   _id: string;
+  id: string;
   name: string;
   image: string;
-  description: 'srping 2018';
+  description: string;
 };
 
 export type Tag = {
   _id: string;
   name: string;
+};
+
+export type Banner = {
+  _id: string;
+  id: string;
+  image: string;
+  content: string;
+  sub_content: string;
+  category: Category;
 };

@@ -27,6 +27,7 @@ import {
 } from '@/services/utils/validate';
 import ErrValidate from '../(ui)/err-validate/err-validate';
 import { usePostCouponMutation } from '@/services/redux/features/products';
+import { SVG } from '@/enum/Enum';
 type Form = {
   campaign_name: string;
   discount: string;
@@ -105,17 +106,15 @@ const AddCouponModal = () => {
   const handleChangeForm = useCallback(
     (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
       const { name, value } = e.target;
-      if (value !== '') {
-        setForm((prevForm) => {
-          return {
-            ...prevForm,
-            [name]:
-              name === 'tags'
-                ? Array.from(new Set([...prevForm.tags, value]))
-                : value,
-          };
-        });
-      }
+      setForm((prevForm) => {
+        return {
+          ...prevForm,
+          [name]:
+            name === 'tags'
+              ? Array.from(new Set([...prevForm.tags, value]))
+              : value,
+        };
+      });
     },
     [form]
   );
@@ -171,23 +170,26 @@ const AddCouponModal = () => {
       })
     );
   }, [isSuccessTags, tagsData, form.tags]);
-
+  const closeModal = useCallback(() => {
+    setForm({
+      campaign_name: '',
+      discount: '',
+      max_discount: '',
+      min_amount: '',
+      category: '',
+      tags: [],
+      published: false,
+      campaign_start_time: '',
+      campaign_end_time: '',
+    });
+    setSelectedFile(null);
+    setSelectedImage(null);
+    setVisibleModal('visibleAddCouponModal');
+    setErrValidate(false);
+  }, []);
   useEffect(() => {
     if (isSuccessPostCoupon) {
-      setForm({
-        campaign_name: '',
-        discount: '',
-        max_discount: '',
-        min_amount: '',
-        category: '',
-        tags: [],
-        published: false,
-        campaign_start_time: '',
-        campaign_end_time: '',
-      });
-      setSelectedImage(null);
-      setVisibleModal('visibleAddCouponModal');
-      setErrValidate(false);
+      closeModal();
     }
   }, [isSuccessPostCoupon]);
   return (
@@ -244,25 +246,10 @@ const AddCouponModal = () => {
                         ref={imgRef}
                         onChange={handleFileSelect}
                       />
-                      <span className='mx-auto flex justify-center'>
-                        <svg
-                          stroke='currentColor'
-                          fill='none'
-                          stroke-width='2'
-                          viewBox='0 0 24 24'
-                          stroke-linecap='round'
-                          stroke-linejoin='round'
-                          className='text-3xl text-green'
-                          height='1em'
-                          width='1em'
-                          xmlns='http://www.w3.org/2000/svg'
-                        >
-                          <polyline points='16 16 12 12 8 16'></polyline>
-                          <line x1='12' y1='12' x2='12' y2='21'></line>
-                          <path d='M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3'></path>
-                          <polyline points='16 16 12 12 8 16'></polyline>
-                        </svg>
-                      </span>
+                      <span
+                        className='mx-auto flex justify-center text-3xl text-green'
+                        dangerouslySetInnerHTML={{ __html: SVG.upload }}
+                      ></span>
                       <p className='text-sm mt-2'>{t('upload_img')}</p>
                       <em className='text-xs text-gray-400'>
                         ({t('mess_upload_img')})
@@ -540,7 +527,7 @@ const AddCouponModal = () => {
               className={`w-full h-[48px] py-2 px-4 rounded-md flex justify-center items-center border border-lightGray dark:border-darkGray bg-[#fff] hover:bg-[#FCC8D1] text-red dark:bg-darkGray dark:text-gray dark:hover:bg-darkGray dark:hover:text-darkRed ${
                 isLoadingPostCoupon ? 'cursor-not-allowed' : 'cursor-pointer'
               }`}
-              func={() => setVisibleModal('visibleAddCouponModal')}
+              func={closeModal}
               disabled={isLoadingPostCoupon}
             />
             <ActionButton

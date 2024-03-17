@@ -11,7 +11,8 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { FaSearchPlus } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
-import NotFoundOrders from '@/components/(ui)/not-found-orders/not_found_orders';
+import NotFoundItem from '@/components/(ui)/not-found-item/not_found_item';
+import { SVG } from '@/enum/Enum';
 
 const RecentOrder = () => {
   const { t, i18n } = useTranslation('translation');
@@ -128,7 +129,7 @@ const RecentOrder = () => {
         />
       )}
       {isSuccessOrders && ordersData.orders.length === 0 && (
-        <NotFoundOrders message={t('message_no_order')} />
+        <NotFoundItem img={SVG.order} message={t('message_no_order')} />
       )}
     </section>
   );

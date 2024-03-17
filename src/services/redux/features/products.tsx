@@ -4,9 +4,13 @@ const end_point = import.meta.env.VITE_BACKEND_URL;
 export const productsApi = createApi({
   reducerPath: 'productsApi',
   baseQuery: fetchBaseQuery({ baseUrl: `${end_point}` }),
-  tagTypes: ['products', 'coupons'],
+  tagTypes: ['banners', 'products', 'coupons'],
   endpoints: (builder) => {
     return {
+      getBanners: builder.query({
+        query: () => `banners`,
+        providesTags: (result) => providesList(result, 'banners'),
+      }),
       getProducts: builder.query({
         query: (query) => `products?${query}`,
         providesTags: (result) => providesList(result, 'products'),
@@ -14,6 +18,14 @@ export const productsApi = createApi({
       getCoupons: builder.query({
         query: (query) => `coupons?${query}`,
         providesTags: (result) => providesList(result, 'coupons'),
+      }),
+      postBanner: builder.mutation({
+        query: (body) => ({
+          url: 'banners',
+          method: 'POST',
+          body: body,
+        }),
+        invalidatesTags: ['banners'],
       }),
       postCoupon: builder.mutation({
         query: (body) => ({
@@ -55,8 +67,10 @@ export const productsApi = createApi({
 });
 
 export const {
+  useGetBannersQuery,
   useGetProductsQuery,
   useGetCouponsQuery,
+  usePostBannerMutation,
   usePostCouponMutation,
   usePublishedCouponsMutation,
   useUpdateCouponsMutation,

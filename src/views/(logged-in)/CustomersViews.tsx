@@ -5,6 +5,7 @@ import { useMemo, useState } from 'react';
 import { User } from '@/types/type';
 import { useTranslation } from 'react-i18next';
 import Customers from '@/components/pages/customers/customers';
+import NotFoundItem from '@/components/(ui)/not-found-item/not_found_item';
 const CustomersViews = () => {
   const { t, i18n } = useTranslation('translation');
   const [type, setType] = useState('oauth');
@@ -32,7 +33,7 @@ const CustomersViews = () => {
       <h2 className='text-lg font-bold'>{t('customers')}</h2>
       <FilterCustomer handleFilter={handleFilter} />
       <section className='flex flex-col pb-16'>
-        {isSuccessCustomers && (
+        {isSuccessCustomers && customersData?.users?.length > 0 && (
           <Table
             tHeader={[
               'ID',
@@ -46,6 +47,9 @@ const CustomersViews = () => {
             totalPage={customersData.totalPage}
             handleChangePage={handleChangePage}
           />
+        )}
+        {isSuccessCustomers && customersData?.users?.length === 0 && (
+          <NotFoundItem message={t('message_no_customers')} />
         )}
       </section>
     </>

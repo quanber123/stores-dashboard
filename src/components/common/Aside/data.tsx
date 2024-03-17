@@ -17,6 +17,10 @@ export const catalog = [
     isDropdown: true,
     dropdown: [
       {
+        link: 'banners',
+        name: 'banners',
+      },
+      {
         link: 'products',
         name: 'products',
       },
