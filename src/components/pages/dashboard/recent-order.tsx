@@ -129,7 +129,11 @@ const RecentOrder = () => {
         />
       )}
       {isSuccessOrders && ordersData.orders.length === 0 && (
-        <NotFoundItem img={SVG.order} message={t('message_no_order')} />
+        <NotFoundItem
+          color='text-red'
+          img={SVG.order}
+          message={t('message_no_order')}
+        />
       )}
     </section>
   );
