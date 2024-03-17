@@ -187,6 +187,7 @@ const AddCouponModal = () => {
       });
       setSelectedImage(null);
       setVisibleModal('visibleAddCouponModal');
+      setErrValidate(false);
     }
   }, [isSuccessPostCoupon]);
   return (

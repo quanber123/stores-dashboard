@@ -5,6 +5,7 @@ import ProtectedRoute from '@/auth/ProtectedRoute';
 const LoginViews = lazy(() => import('@/views/(default)/LoginViews'));
 const DashBoardViews = lazy(() => import('@/views/(logged-in)/DashboardViews'));
 const CouponsViews = lazy(() => import('@/views/(logged-in)/CouponsViews'));
+const BannerViews = lazy(() => import('@/views/(logged-in)/ProductsViews'));
 const ProductsViews = lazy(() => import('@/views/(logged-in)/ProductsViews'));
 const CustomersViews = lazy(() => import('@/views/(logged-in)/CustomersViews'));
 const CustomerOrdersViews = lazy(
@@ -28,6 +29,10 @@ const routes: RouteObject[] = [
       {
         path: 'dashboard',
         element: <DashBoardViews />,
+      },
+      {
+        path: 'banners',
+        element: <BannerViews />,
       },
       {
         path: 'products',

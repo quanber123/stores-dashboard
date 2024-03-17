@@ -27,7 +27,7 @@ const CouponsViews = () => {
     setPage(p);
   };
   return (
-    <main className='w-full h-full lg:ml-[256px] mt-[64px] py-8 px-4 lg:px-16 flex flex-col gap-[40px] dark:bg-darkBlue text-darkGray dark:text-white overflow-y-scroll'>
+    <>
       <AddCouponModal />
       <div className='grid grid-cols-2'>
         <h2 className='text-lg font-bold'>{t('coupons')}</h2>
@@ -55,7 +55,7 @@ const CouponsViews = () => {
           totalPage={couponsData.totalPage}
         />
       )}
-    </main>
+    </>
   );
 };
 

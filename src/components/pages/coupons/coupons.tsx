@@ -7,7 +7,7 @@ import { formatTime } from '@/services/utils/format';
 import { Coupon } from '@/types/type';
 import React, { useCallback, useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { FaRegPenToSquare, FaTrashCan } from 'react-icons/fa6';
+import { FaTrashCan } from 'react-icons/fa6';
 type Props = {
   coupon: Coupon;
 };
@@ -94,13 +94,12 @@ const Coupons: React.FC<Props> = ({ coupon }) => {
       </td>
       <td className='p-4'>
         <div className='flex justify-center items-center gap-[16px]'>
-          <button
+          {/* <button
             className='text-lg flex justify-center items-center hover:text-green transition-colors'
             aria-label='update-coupon'
-            // onClick={() => navigate(`/orders/${o.paymentInfo.orderCode}`)}
           >
             <FaRegPenToSquare />
-          </button>
+          </button> */}
           <button
             className='text-lg flex justify-center items-center hover:text-red transition-colors'
             aria-label='remove-coupon'

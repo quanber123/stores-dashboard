@@ -24,11 +24,11 @@ const ProductsViews = () => {
     setPage(p);
   };
   return (
-    <main className='w-full h-full lg:ml-[256px] mt-[64px] py-8 px-4 lg:px-16 flex flex-col gap-[40px] dark:bg-darkBlue text-darkGray dark:text-white overflow-y-scroll'>
+    <>
       <h2 className='text-lg font-bold'>{t('products')}</h2>
       <FilterProducts />
       {/* {isSuccessProducts && productsData.products.length > 0 && <Table tHeader={[`${t('product_name')}`, `${t('category')}`, `${t('price')}`, `${t('sale_price')}`, `${t('stock')}`, `${t('status')}`, `${t('view')}`, `${t('published')}`, `${t('action')}`]} renderedData={} handleChangePage={handleChangePage} totalPage={productsData.totalPage}/>} */}
-    </main>
+    </>
   );
 };
 
