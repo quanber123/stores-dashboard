@@ -6,6 +6,7 @@ import { Order } from '@/types/type';
 import NotFoundOrders from '@/components/(ui)/not-found-item/not_found_item';
 import { useTranslation } from 'react-i18next';
 import Orders from '@/components/pages/orders/orders';
+import { SVG } from '@/enum/Enum';
 
 type HandleFilterFunction = (
   search: string,
@@ -76,7 +77,11 @@ const OrdersViews = () => {
           />
         )}
         {isSuccessOrders && ordersData.orders.length === 0 && (
-          <NotFoundOrders message={t('message_no_order')} />
+          <NotFoundOrders
+            color='text-red'
+            img={SVG.order}
+            message={t('message_no_order')}
+          />
         )}
       </section>
     </>
