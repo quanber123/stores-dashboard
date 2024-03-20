@@ -118,8 +118,9 @@ export type Product = {
     ];
     category: Category;
     tags: Tag[];
-    shortDescription: string;
     weight: string;
+    shortDescription: string;
+    description: string;
     dimensions: string;
     materials: string;
     _id: string;

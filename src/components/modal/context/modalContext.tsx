@@ -1,4 +1,4 @@
-import { Banner } from '@/types/type';
+import { Banner, Product } from '@/types/type';
 import {
   createContext,
   useContext,
@@ -28,6 +28,7 @@ type InitialState = {
   visibleAddCategoryModal: boolean;
   visibleAddTagModal: boolean;
   visibleAddProductModal: boolean;
+  visibleUpdateProductModal: Product;
 };
 const SET_VISIBLE_MODAL = 'SET_VISIBLE_MODAL';
 const CLOSE_ALL_MODAL = 'CLOSE_ALL_MODAL';

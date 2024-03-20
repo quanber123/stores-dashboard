@@ -2,6 +2,7 @@ import NotFoundItem from '@/components/(ui)/not-found-item/not_found_item';
 import Table from '@/components/(ui)/table/table';
 import AddProductModal from '@/components/modal/add_product_modal';
 import { ModalContext } from '@/components/modal/context/modalContext';
+import UpdateProductModal from '@/components/modal/update_product_modal';
 import FilterProducts from '@/components/pages/products/filter_products';
 import Products from '@/components/pages/products/products';
 import { useGetProductsQuery } from '@/services/redux/features/products';
@@ -49,6 +50,7 @@ const ProductsViews = () => {
   return (
     <>
       <AddProductModal />
+      <UpdateProductModal />
       <div className='grid grid-cols-2'>
         <h2 className='text-lg font-bold'>{t('products')}</h2>
         <button

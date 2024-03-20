@@ -109,6 +109,9 @@ const Products: React.FC<Props> = ({ product }) => {
           <button
             className='text-lg flex justify-center items-center hover:text-green transition-colors'
             aria-label='update-btn'
+            onClick={() =>
+              setVisibleModal({ visibleUpdateProductModal: { ...product } })
+            }
           >
             <FaRegPenToSquare />
           </button>

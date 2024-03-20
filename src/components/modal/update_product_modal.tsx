@@ -22,7 +22,7 @@ import {
 import ErrValidate from '../(ui)/err-validate/err-validate';
 import { SVG } from '@/enum/Enum';
 import { FaTrash } from 'react-icons/fa6';
-import { usePostProductMutation } from '@/services/redux/features/products';
+import { useUpdateProductMutation } from '@/services/redux/features/products';
 import {
   useGetCategoriesQuery,
   useGetTagsQuery,
@@ -45,24 +45,26 @@ type Form = {
   tags: string[];
   variants: Variants[];
 };
-const AddProductModal = () => {
+const UpdateProductModal = () => {
   const { t } = useTranslation('translation');
   const [errValidate, setErrValidate] = useState(false);
   const [errVariants, setErrVariants] = useState(false);
   const [errImg, setErrImg] = useState('');
   const { state, setVisibleModal } = useContext(ModalContext);
+  const product = state.visibleUpdateProductModal;
   const [modalRef, handleClickOutside] = useCloseModal(
-    'visibleAddProductModal'
+    'visibleUpdateProductModal'
   );
-  const [selectedImages, setSelectedImages] = useState<File[]>([]);
+  const [selectedImages, setSelectedImages] = useState<string[]>([]);
+  const [selectedFiles, setSelectedSelectedFiles] = useState<File[]>([]);
   const imgRef = useRef<HTMLInputElement | null>(null);
   const { data: categoriesData, isSuccess: isSuccessCategories } =
     useGetCategoriesQuery(null);
   const { data: tagsData, isSuccess: isSuccessTags } = useGetTagsQuery(null);
   const [
-    postProduct,
-    { isLoading: isLoadingPostProduct, isSuccess: isSuccessPostProduct },
-  ] = usePostProductMutation();
+    updateProduct,
+    { isLoading: isLoadingUpdateProduct, isSuccess: isSuccessUpdateProduct },
+  ] = useUpdateProductMutation();
   const [form, setForm] = useState<Form>({
     product_name: '',
     description: '',
@@ -75,6 +77,29 @@ const AddProductModal = () => {
     tags: [],
     variants: [],
   });
+  useEffect(() => {
+    if (state.visibleUpdateProductModal) {
+      setForm({
+        product_name: product?.name,
+        description: product?.details?.description,
+        short_description: product?.details?.shortDescription,
+        weight: product?.details?.weight,
+        dimensions: product?.details?.dimensions,
+        materials: product?.details?.materials,
+        price: product?.price?.toString(),
+        category: product?.details?.category?.name,
+        tags: [...product?.details?.tags?.map((t) => t.name)],
+        variants: [
+          ...product?.details?.variants?.map((v) => ({
+            color: v.color,
+            size: v.size,
+            quantity: v.quantity.toString(),
+          })),
+        ],
+      });
+      setSelectedImages(product?.images);
+    }
+  }, [state.visibleUpdateProductModal]);
   const [variants, setVariants] = useState<Variants>({
     color: '',
     size: '',
@@ -96,11 +121,11 @@ const AddProductModal = () => {
         form.variants.length > 0
       ) {
         const data = new FormData();
-        const category = categoriesData.find(
+        const category = categoriesData?.find(
           (c: Category) => c.name === form.category
         );
         const tags = tagsData
-          .filter((t: Tag) => form.tags?.includes(t.name))
+          ?.filter((t: Tag) => form.tags?.includes(t.name))
           .map((t: Tag) => t._id);
         data.append('name', form.product_name);
         data.append('description', form.description);
@@ -112,15 +137,22 @@ const AddProductModal = () => {
         data.append('category', category._id);
         data.append('tags', JSON.stringify(tags));
         data.append('variants', JSON.stringify(form.variants));
-        selectedImages.forEach((images) => {
-          data.append(`images`, images);
-        });
-        await postProduct(data);
+        data.append(
+          'old_images',
+          JSON.stringify(
+            product?.images.filter((i) => selectedImages.includes(i))
+          )
+        );
+        selectedFiles &&
+          selectedFiles.forEach((image) => {
+            data.append(`images`, image);
+          });
+        await updateProduct({ id: product._id, body: data });
       } else {
         setErrValidate(true);
       }
     },
-    [postProduct, form, selectedImages]
+    [form, selectedFiles, selectedImages]
   );
   const handleChangeForm = useCallback(
     (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -135,7 +167,7 @@ const AddProductModal = () => {
         };
       });
     },
-    []
+    [form]
   );
   const removeDuplicates = useCallback((arr: Variants[]) => {
     const uniqueVariants: { [key: string]: Variants } = {};
@@ -188,7 +220,7 @@ const AddProductModal = () => {
         };
       });
     },
-    []
+    [variants]
   );
 
   const handleRemoveVariant = useCallback(
@@ -212,17 +244,37 @@ const AddProductModal = () => {
         const newImages = Array.from(files).filter((file) =>
           allowImage.some((ext) => file.name.toLowerCase().endsWith(ext))
         );
-        setSelectedImages((prevImages) => [...prevImages, ...newImages]);
+
+        const updatedSelectedImages: string[] = [];
+
+        newImages.forEach((file) => {
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            if (event.target && typeof event.target.result === 'string') {
+              updatedSelectedImages.push(event.target.result);
+              setSelectedImages([...selectedImages, event.target.result]);
+            }
+          };
+          reader.readAsDataURL(file);
+        });
+
+        setSelectedSelectedFiles((prevImages) => [...prevImages, ...newImages]);
         setErrImg(
           newImages.length !== files.length ? `${t('mess_upload_img')}` : ''
         );
       }
     },
-    []
+    [selectedImages, allowImage, t]
   );
-  const handleRemoveImage = useCallback((index: number) => {
-    setSelectedImages((prevImages) => prevImages.filter((_, i) => i !== index));
-  }, []);
+
+  const handleRemoveImage = useCallback(
+    (index: number) => {
+      setSelectedImages((prevImages) =>
+        prevImages.filter((_, i) => i !== index)
+      );
+    },
+    [selectedImages]
+  );
   const closeModal = useCallback(() => {
     setVariants({
       color: '',
@@ -241,29 +293,30 @@ const AddProductModal = () => {
       tags: [],
       variants: [],
     });
-    setVisibleModal('visibleAddProductModal');
-    setErrValidate((prevState) => (prevState = false));
+    setVisibleModal('visibleUpdateProductModal');
     setSelectedImages([]);
     setErrImg('');
-    setErrVariants((prevState) => (prevState = false));
+    setSelectedSelectedFiles([]);
+    setErrVariants(false);
+    setErrValidate(false);
   }, []);
   useEffect(() => {
-    if (isSuccessPostProduct) {
+    if (isSuccessUpdateProduct) {
       closeModal();
     }
-  }, [isSuccessPostProduct]);
+  }, [isSuccessUpdateProduct]);
   const renderedCategories = useMemo(() => {
     return (
       isSuccessCategories &&
       categoriesData?.map((c: Category) => {
         return (
-          <option key={c._id} className='capitalize' value={c.name}>
-            {c.name}
+          <option key={c?._id} className='capitalize' value={c?.name}>
+            {c?.name}
           </option>
         );
       })
     );
-  }, [isSuccessCategories, categoriesData, form.category]);
+  }, [isSuccessCategories, categoriesData, form?.category, product]);
   const renderedTags = useMemo(() => {
     return (
       isSuccessTags &&
@@ -289,7 +342,7 @@ const AddProductModal = () => {
         style={{
           backgroundColor: 'rgba(0,0,0,0.5)',
           transition: 'transform 0.2s ease',
-          transform: state.visibleAddProductModal
+          transform: state.visibleUpdateProductModal
             ? 'translateX(0)'
             : 'translateX(100%)',
         }}
@@ -303,8 +356,8 @@ const AddProductModal = () => {
         >
           <div className='bg-white dark:bg-darkBlue p-6 flex justify-between items-center'>
             <div className='flex flex-col gap-[8px]'>
-              <p className='text-xl'>{t('add_product')}</p>
-              <p className='text-sm'>{t('mess_add_product')}</p>
+              <p className='text-xl'>{t('update_product')}</p>
+              <p className='text-sm'>{t('mess_update_product')}</p>
             </div>
             <button
               className='bg-white rounded-full text-red p-3 shadow-md hover:bg-[#FCC8D1] hover:text-darkGray transition-all'
@@ -356,12 +409,13 @@ const AddProductModal = () => {
                               <img
                                 key={index}
                                 className='inline-flex w-24 max-h-24 p-2 object-cover border border-gray rounded-md'
-                                src={URL.createObjectURL(image)}
+                                src={image}
                                 alt={`image ${index + 1}`}
                               />
                               <button
                                 className='absolute top-1 right-1 border border-red text-red text-[10px] rounded-full p-[2px]'
                                 aria-label='remove-img'
+                                type='button'
                                 onClick={() => handleRemoveImage(index)}
                               >
                                 <FaTimes />
@@ -480,6 +534,7 @@ const AddProductModal = () => {
                       className='w-full h-[48px] px-3 py-[4px] bg-white focus:bg-[#fff] focus:outline-none capitalize'
                       name='category'
                       id='category'
+                      value={form.category}
                       onChange={handleChangeForm}
                     >
                       <option value=''>{t('category')}</option>
@@ -600,10 +655,10 @@ const AddProductModal = () => {
                       </button>
                     </div>
                   </div>
-                  {errValidate && form.variants.length === 0 && (
+                  {errValidate && form?.variants?.length === 0 && (
                     <ErrValidate message='validate_variants' />
                   )}
-                  {form.variants?.length > 0 && (
+                  {form?.variants?.length > 0 && (
                     <div
                       className='w-full rounded-lg border border-lightGray
                       dark:border-lightGray
@@ -632,8 +687,10 @@ const AddProductModal = () => {
                                 <td className='px-2 py-1'>{v.quantity}</td>
                                 <td className='px-2 py-1'>
                                   <button
+                                    type='button'
                                     className='hover:text-red transition-colors'
                                     onClick={() => handleRemoveVariant(v.size)}
+                                    aria-label='delete variants'
                                   >
                                     <FaTrash />
                                   </button>
@@ -655,19 +712,19 @@ const AddProductModal = () => {
               title={`${t('cancel_btn')}`}
               style={{ transition: 'all 0.2s linear' }}
               className={`w-full h-[48px] py-2 px-4 rounded-md flex justify-center items-center border border-lightGray dark:border-darkGray bg-[#fff] hover:bg-[#FCC8D1] text-red dark:bg-darkGray dark:text-gray dark:hover:bg-darkGray dark:hover:text-darkRed ${
-                isLoadingPostProduct ? 'cursor-not-allowed' : 'cursor-pointer'
+                isLoadingUpdateProduct ? 'cursor-not-allowed' : 'cursor-pointer'
               }`}
               func={closeModal}
-              disabled={isLoadingPostProduct}
+              disabled={isLoadingUpdateProduct}
             />
             <ActionButton
               type='submit'
-              title={`${t('add_banner')}`}
+              title={`${t('update_product')}`}
               style={{ transition: 'all 0.2s linear' }}
               className={`w-full h-[48px] py-2 px-4 rounded-md flex justify-center items-center bg-lightGreen hover:bg-darkGreen text-white ${
-                isLoadingPostProduct ? 'cursor-not-allowed' : 'cursor-pointer'
+                isLoadingUpdateProduct ? 'cursor-not-allowed' : 'cursor-pointer'
               }`}
-              disabled={isLoadingPostProduct}
+              disabled={isLoadingUpdateProduct}
             />
           </div>
         </form>
@@ -676,4 +733,4 @@ const AddProductModal = () => {
   );
 };
 
-export default AddProductModal;
+export default UpdateProductModal;

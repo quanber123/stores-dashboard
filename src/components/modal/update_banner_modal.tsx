@@ -47,12 +47,14 @@ const UpdateBannerModal = () => {
     category: '',
   });
   useEffect(() => {
-    setForm({
-      content: banner?.content,
-      sub_content: banner?.sub_content,
-      category: banner?.category?.name,
-    });
-    setSelectedImage(banner?.image);
+    if (state.visibleUpdateBannerModal) {
+      setForm({
+        content: banner?.content,
+        sub_content: banner?.sub_content,
+        category: banner?.category?.name,
+      });
+      setSelectedImage(banner?.image);
+    }
   }, [state.visibleUpdateBannerModal]);
   const renderedCategories = useMemo(() => {
     return (
@@ -75,7 +77,7 @@ const UpdateBannerModal = () => {
         validateString(form.category)
       ) {
         const data = new FormData();
-        const category = categoriesData.find(
+        const category = categoriesData?.find(
           (c: Category) => c.name === form.category
         );
         selectedFile && data.append('image', selectedFile as File);
@@ -87,7 +89,7 @@ const UpdateBannerModal = () => {
         setErrValidate(true);
       }
     },
-    [form, updateBanner, selectedFile]
+    [form, selectedFile]
   );
   const handleChangeForm = useCallback(
     (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
