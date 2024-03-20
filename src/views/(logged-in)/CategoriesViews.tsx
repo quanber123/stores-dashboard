@@ -17,7 +17,7 @@ const CategoriesViews = () => {
     return (
       isSuccessCategories &&
       categoriesData?.map((c: Category) => {
-        return <Categories category={c} />;
+        return <Categories key={c._id} category={c} />;
       })
     );
   }, [isSuccessCategories, categoriesData]);
@@ -27,7 +27,7 @@ const CategoriesViews = () => {
       <div className='grid grid-cols-2'>
         <h2 className='text-lg font-bold'>{t('categories')}</h2>
         <button
-          className='ml-auto w-[192px] h-[48px] rounded-md text-white bg-lightGreen hover:bg-darkGreen transition-colors flex justify-center items-center gap-[10px] focus:outline-none'
+          className='ml-auto w-[192px] h-[36px] md:h-[48px] rounded-md text-white bg-lightGreen hover:bg-darkGreen transition-colors flex justify-center items-center gap-[10px] focus:outline-none'
           onClick={() => setVisibleModal('visibleAddCategoryModal')}
         >
           <FaPlus /> {t('add_category')}

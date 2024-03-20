@@ -19,9 +19,38 @@ export const labelApi = createApi({
         }),
         invalidatesTags: ['categories'],
       }),
+      updateCategory: builder.mutation({
+        query: ({ id, body }) => ({
+          url: `categories/${id}`,
+          method: 'PUT',
+          body: body,
+        }),
+      }),
+      deleteCategory: builder.mutation({
+        query: (id) => ({
+          url: `categories/${id}`,
+          method: 'DELETE',
+        }),
+        invalidatesTags: ['categories'],
+      }),
       getTags: builder.query({
         query: () => 'tags',
         providesTags: (result) => providesList(result, 'tags'),
+      }),
+      postTag: builder.mutation({
+        query: (body) => ({
+          url: 'tags',
+          method: 'POST',
+          body: body,
+        }),
+        invalidatesTags: ['tags'],
+      }),
+      deleteTag: builder.mutation({
+        query: (id) => ({
+          url: `tags/${id}`,
+          method: 'DELETE',
+        }),
+        invalidatesTags: ['tags'],
       }),
     };
   },
@@ -30,5 +59,9 @@ export const labelApi = createApi({
 export const {
   useGetCategoriesQuery,
   usePostCategoryMutation,
+  useUpdateCategoryMutation,
+  useDeleteCategoryMutation,
   useGetTagsQuery,
+  usePostTagMutation,
+  useDeleteTagMutation,
 } = labelApi;

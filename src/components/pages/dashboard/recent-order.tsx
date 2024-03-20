@@ -37,7 +37,7 @@ const RecentOrder = () => {
     },
     [isSuccessUpdateOrder]
   );
-  const handleChangePage = useCallback(
+  const handlePageChange = useCallback(
     (page: number) => {
       setCurrPage(page);
     },
@@ -125,7 +125,8 @@ const RecentOrder = () => {
           ]}
           totalPage={ordersData.totalPage}
           renderedData={renderedOrders}
-          handleChangePage={handleChangePage}
+          handlePageChange={handlePageChange}
+          currPage={currPage}
         />
       )}
       {isSuccessOrders && ordersData.orders.length === 0 && (

@@ -98,3 +98,46 @@ export type Banner = {
   sub_content: string;
   category: Category;
 };
+
+export type Product = {
+  _id: string;
+  name: string;
+  images: string[];
+  price: number;
+  saleAmount: number;
+  finalPrice: number;
+  details: {
+    variants: [
+      {
+        size: string;
+        color: string;
+        quantity: number;
+        inStock: true;
+        _id: string;
+      }
+    ];
+    category: Category;
+    tags: Tag[];
+    shortDescription: string;
+    weight: string;
+    dimensions: string;
+    materials: string;
+    _id: string;
+  };
+  type: string;
+  created_at: string;
+  updated_at: string;
+  published: boolean;
+};
+
+export type HandleFilterFunction = (
+  search?: string,
+  currStatus?: string,
+  ordersLimit?: number | string,
+  method?: string,
+  startDate?: string,
+  endDate?: string,
+  sort?: string,
+  tag?: string,
+  category?: string
+) => void;

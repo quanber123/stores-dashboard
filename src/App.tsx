@@ -29,8 +29,10 @@ const App = () => {
     setToggleAside((prevState) => (prevState = !prevState));
   }, [toggleAside]);
   useEffect(() => {
-    dispatch(setStatus(statusData));
-  }, [isSuccessStatus]);
+    if (isSuccessStatus) {
+      dispatch(setStatus(statusData));
+    }
+  }, [isSuccessStatus, statusData]);
   return (
     <Suspense fallback={<LoadingViews />}>
       <Header toggleAside={toggleAside} handleToggle={handleToggle} />

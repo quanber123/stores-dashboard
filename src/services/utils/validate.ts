@@ -1,3 +1,4 @@
+export const allowImage = ['.jpg', '.jpeg', '.png', '.webp'];
 export function validateImage(file: File | null) {
   if (file === null) return false;
   const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
@@ -17,9 +18,9 @@ export const validateNumber = (number: string | number) => {
 };
 
 export const validateString = (str: string) => {
-  return str.length > 0 ? true : false;
+  return str?.length > 0 ? true : false;
 };
 
 export const validateArr = (arr: any[]) => {
-  return arr.length > 0 ? true : false;
+  return arr?.length > 0 ? true : false;
 };

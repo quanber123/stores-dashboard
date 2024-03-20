@@ -4,8 +4,9 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 type Props = {
   handleFilter: any;
+  handleReset: () => void;
 };
-const FilterOrders: React.FC<Props> = ({ handleFilter }) => {
+const FilterOrders: React.FC<Props> = ({ handleFilter, handleReset }) => {
   const { t } = useTranslation('translation');
   const allStatus = useSelector(status);
   const [currStatus, setCurrStatus] = useState('');
@@ -61,15 +62,9 @@ const FilterOrders: React.FC<Props> = ({ handleFilter }) => {
       date.startDate,
       date.endDate
     );
-  }, [
-    searchRef.current?.value,
-    currStatus,
-    ordersLimit,
-    currMethod,
-    date.startDate,
-    date.endDate,
-  ]);
+  }, [searchRef.current?.value, currStatus, ordersLimit, currMethod, date]);
   const reset = useCallback(() => {
+    handleReset();
     if (searchRef.current) {
       searchRef.current.value = '';
     }
@@ -77,15 +72,7 @@ const FilterOrders: React.FC<Props> = ({ handleFilter }) => {
     setOrdersLimit('');
     setCurrMethod('');
     setDate({ startDate: '', endDate: '' });
-    handleFilter('', '', '', '', '', '');
-  }, [
-    searchRef.current?.value,
-    currStatus,
-    ordersLimit,
-    currMethod,
-    date.startDate,
-    date.endDate,
-  ]);
+  }, []);
   return (
     <section className='bg-white dark:bg-darkGray p-4 flex flex-col gap-[20px]'>
       <div className='grid xl:grid-cols-4 grid-cols-1 gap-[20px]'>

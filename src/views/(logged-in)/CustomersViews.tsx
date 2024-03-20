@@ -10,7 +10,7 @@ const CustomersViews = () => {
   const { t, i18n } = useTranslation('translation');
   const [type, setType] = useState('oauth');
   const [page, setPage] = useState(1);
-  const [search, setSearch] = useState<string | null>(null);
+  const [search, setSearch] = useState<string>('');
   const { data: customersData, isSuccess: isSuccessCustomers } =
     useGetCustomersQuery({ page: page, type: type, search: search });
   const renderedCustomers = useMemo(() => {
@@ -25,13 +25,19 @@ const CustomersViews = () => {
     setType(t);
     setSearch(s);
   };
-  const handleChangePage = (p: number) => {
+  const handleReset = () => {
+    setSearch('');
+    setPage(1);
+    setType('oauth');
+    // refetch();
+  };
+  const handlePageChange = (p: number) => {
     setPage(p);
   };
   return (
     <>
       <h2 className='text-lg font-bold'>{t('customers')}</h2>
-      <FilterCustomer handleFilter={handleFilter} />
+      <FilterCustomer handleReset={handleReset} handleFilter={handleFilter} />
       <section className='flex flex-col pb-16'>
         {isSuccessCustomers && customersData?.users?.length > 0 && (
           <Table
@@ -45,7 +51,8 @@ const CustomersViews = () => {
             ]}
             renderedData={renderedCustomers}
             totalPage={customersData.totalPage}
-            handleChangePage={handleChangePage}
+            handlePageChange={handlePageChange}
+            currPage={page}
           />
         )}
         {isSuccessCustomers && customersData?.users?.length === 0 && (

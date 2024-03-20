@@ -1,9 +1,6 @@
 import { ModalContext } from '@/components/modal/context/modalContext';
-import {
-  useDeleteCouponsMutation,
-  usePublishedCouponsMutation,
-} from '@/services/redux/features/products';
-import { formatTime } from '@/services/utils/format';
+import { useDeleteCouponsMutation } from '@/services/redux/features/products';
+import { formatDate } from '@/services/utils/format';
 import { Coupon } from '@/types/type';
 import React, { useCallback, useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -13,15 +10,12 @@ type Props = {
 };
 const Coupons: React.FC<Props> = ({ coupon }) => {
   const { t, i18n } = useTranslation('translation');
-  const { id, image, name, discount, published, startDate, endDate, expired } =
-    coupon;
+  const { id, image, name, discount, startDate, endDate, expired } = coupon;
   const { setVisibleModal } = useContext(ModalContext);
   const [
     deleteCoupons,
     { isLoading: isLoadingDelete, isSuccess: isSuccessDelete },
   ] = useDeleteCouponsMutation();
-  const [updatePublished, { isLoading: isLoadingPublished }] =
-    usePublishedCouponsMutation();
   const handleRemoveCoupon = useCallback(
     (c: Coupon) => {
       setVisibleModal({
@@ -40,13 +34,13 @@ const Coupons: React.FC<Props> = ({ coupon }) => {
         },
       });
     },
-    [setVisibleModal, coupon]
+    [coupon]
   );
   useEffect(() => {
     if (isSuccessDelete) {
       setVisibleModal('visibleAlertModal');
     }
-  }, [isSuccessDelete, setVisibleModal]);
+  }, [isSuccessDelete]);
   return (
     <tr className='text-center text-gray text-sm border-t border-b border-lightGray dark:border-darkGray font-bold'>
       <td className='p-4'>{id}</td>
@@ -57,32 +51,8 @@ const Coupons: React.FC<Props> = ({ coupon }) => {
         <p>{name}</p>
       </td>
       <td className='p-4'>{discount}%</td>
-      <td className='p-4'>
-        <button
-          style={{ transition: 'background-color 0.2s linear' }}
-          className={`relative w-[30px] h-[15px] rounded-[15px] text-base font-bold text-[#fff] ${
-            published ? 'bg-green' : 'bg-red'
-          }`}
-          aria-label='toggle-published'
-          disabled={isLoadingPublished}
-          onClick={() =>
-            updatePublished({
-              id: id,
-              published: !published,
-            })
-          }
-        >
-          <span
-            style={{
-              transition: 'all 0.2s linear',
-              transform: published ? 'translate(110%)' : 'translate(0)',
-            }}
-            className='absolute top-[1px] left-[1px] w-[13px] h-[13px] bg-[#fff] rounded-full'
-          ></span>
-        </button>
-      </td>
-      <td className='p-4'>{formatTime(startDate, i18n.language)}</td>
-      <td className='p-4'>{formatTime(endDate, i18n.language)}</td>
+      <td className='p-4'>{formatDate(startDate, i18n.language)}</td>
+      <td className='p-4'>{formatDate(endDate, i18n.language)}</td>
       <td className='p-4 text-[#fff] text-[12px]'>
         <p
           className={`m-auto capitalize w-max px-2 rounded-2xl ${

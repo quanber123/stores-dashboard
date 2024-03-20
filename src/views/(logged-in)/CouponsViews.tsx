@@ -13,8 +13,7 @@ const CouponsViews = () => {
   const { setVisibleModal } = useContext(ModalContext);
   const [page, setPage] = useState(1);
   const { data: couponsData, isSuccess: isSuccessCoupons } = useGetCouponsQuery(
-    `page=${page}`,
-    { pollingInterval: 60000 }
+    `page=${page}`
   );
   const renderedCoupons = useMemo(() => {
     return (
@@ -24,7 +23,7 @@ const CouponsViews = () => {
       })
     );
   }, [isSuccessCoupons, couponsData, i18n.language]);
-  const handleChangePage = (p: number) => {
+  const handlePageChange = (p: number) => {
     setPage(p);
   };
   return (
@@ -33,7 +32,7 @@ const CouponsViews = () => {
       <div className='grid grid-cols-2'>
         <h2 className='text-lg font-bold'>{t('coupons')}</h2>
         <button
-          className='ml-auto w-[192px] h-[48px] rounded-md text-white bg-lightGreen hover:bg-darkGreen transition-colors flex justify-center items-center gap-[10px] focus:outline-none'
+          className='ml-auto w-[192px] h-[36px] md:h-[48px] rounded-md text-white bg-lightGreen hover:bg-darkGreen transition-colors flex justify-center items-center gap-[10px] focus:outline-none'
           onClick={() => setVisibleModal('visibleAddCouponModal')}
         >
           <FaPlus /> {t('add_coupon')}
@@ -45,14 +44,13 @@ const CouponsViews = () => {
             `ID`,
             `${t('campaign_name')}`,
             `${t('discount')}`,
-            `${t('published')}`,
             `${t('start_date')}`,
             `${t('end_date')}`,
             `${t('status')}`,
             `${t('action')}`,
           ]}
           renderedData={renderedCoupons}
-          handleChangePage={handleChangePage}
+          handlePageChange={handlePageChange}
           totalPage={couponsData.totalPage}
         />
       )}

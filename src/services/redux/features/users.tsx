@@ -9,10 +9,7 @@ export const usersApi = createApi({
     return {
       getCustomers: builder.query({
         query: ({ page, type, search }) => ({
-          url:
-            search !== null
-              ? `users/getAll?page=${page}&type=${type}&search=${search}`
-              : `users/getAll?page=${page}&type=${type}`,
+          url: `users/getAll?page=${page}&type=${type}&search=${search}`,
           method: 'GET',
         }),
         providesTags: (result) => providesList(result, 'customers'),

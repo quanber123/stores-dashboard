@@ -55,7 +55,7 @@ const AddCategoryModal = () => {
         setErrValidate(true);
       }
     },
-    [form]
+    [postCategory, form, selectedFile]
   );
   const handleChangeForm = useCallback(
     (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -98,7 +98,7 @@ const AddCategoryModal = () => {
     setSelectedFile(null);
     setSelectedImage(null);
     setVisibleModal('visibleAddCategoryModal');
-    setErrValidate(false);
+    setErrValidate((prevState) => (prevState = false));
   }, [setVisibleModal]);
   useEffect(() => {
     if (isSuccessPostCategory) {
@@ -140,7 +140,6 @@ const AddCategoryModal = () => {
             <Input
               id='img'
               title={`${t('img')}`}
-              type='text'
               classGrand='grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6'
               classLabel='block text-gray-800 dark:text-gray-400 col-span-4 sm:col-span-2 font-medium'
               classParentInput='col-span-8 sm:col-span-4'

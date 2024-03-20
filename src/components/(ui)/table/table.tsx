@@ -1,31 +1,31 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import ReactPaginate from 'react-paginate';
 import { TbChevronLeft, TbChevronRight } from 'react-icons/tb';
 
 type Props = {
+  currPage?: number;
   tHeader: string[];
   renderedData: any;
   totalPage?: number;
-  handleChangePage?: any;
+  handlePageChange?: any;
 };
 const Table: React.FC<Props> = ({
   tHeader,
   renderedData,
   totalPage,
-  handleChangePage,
+  handlePageChange,
+  currPage,
 }) => {
-  const [currPage, setCurrPage] = useState(0);
   const handlePageClick = useCallback(
     (selectedItem: { selected: number }) => {
-      setCurrPage(selectedItem.selected + 1);
-      handleChangePage(selectedItem.selected + 1);
+      handlePageChange(selectedItem.selected + 1);
     },
-    [currPage, totalPage]
+    [handlePageChange]
   );
   const tdHeader = useMemo(() => {
-    return tHeader.map((h) => {
+    return tHeader.map((h, index) => {
       return (
-        <td key={h} className='px-4 py-2'>
+        <td key={index} className='px-4 py-2'>
           {h}
         </td>
       );
@@ -39,9 +39,9 @@ const Table: React.FC<Props> = ({
         </thead>
         <tbody>{renderedData}</tbody>
       </table>
-      {totalPage && totalPage > 1 && (
+      {currPage && totalPage && totalPage > 1 && (
         <ReactPaginate
-          forcePage={currPage}
+          forcePage={currPage - 1}
           className='my-2 mx-4 flex justify-end items-center gap-[10px] font-bold text-darkGray dark:text-white py-2'
           nextLabel={
             <TbChevronRight className='text-darkGray dark:text-white' />

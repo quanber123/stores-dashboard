@@ -13,7 +13,7 @@ const CustomerOrdersViews = () => {
   const { data: ordersData, isSuccess: isSuccessOrders } =
     useGetAllOrdersByUserIdQuery({ id: id, page: currPage });
 
-  const handleChangePage = useCallback(
+  const handlePageChange = useCallback(
     (page: number) => {
       setCurrPage(page);
     },
@@ -43,8 +43,9 @@ const CustomerOrdersViews = () => {
             `${t('action')}`,
           ]}
           renderedData={renderedOrders}
-          handleChangePage={handleChangePage}
+          handlePageChange={handlePageChange}
           totalPage={ordersData.totalPage}
+          currPage={currPage}
         />
       )}
       {isSuccessOrders && ordersData.orders.length === 0 && (

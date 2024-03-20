@@ -11,14 +11,6 @@ export const productsApi = createApi({
         query: () => `banners`,
         providesTags: (result) => providesList(result, 'banners'),
       }),
-      getProducts: builder.query({
-        query: (query) => `products?${query}`,
-        providesTags: (result) => providesList(result, 'products'),
-      }),
-      getCoupons: builder.query({
-        query: (query) => `coupons?${query}`,
-        providesTags: (result) => providesList(result, 'coupons'),
-      }),
       postBanner: builder.mutation({
         query: (body) => ({
           url: 'banners',
@@ -27,6 +19,55 @@ export const productsApi = createApi({
         }),
         invalidatesTags: ['banners'],
       }),
+      updateBanner: builder.mutation({
+        query: ({ id, body }) => ({
+          url: `banners/${id}`,
+          method: 'PUT',
+          body: body,
+        }),
+        invalidatesTags: ['banners'],
+      }),
+      deleteBanner: builder.mutation({
+        query: (id) => ({
+          url: `banners/${id}`,
+          method: 'DELETE',
+        }),
+        invalidatesTags: ['banners'],
+      }),
+      getProducts: builder.query({
+        query: (query) => `products?${query}`,
+        providesTags: (result) => providesList(result, 'products'),
+      }),
+      publishedProducts: builder.mutation({
+        query: ({ id, published }) => ({
+          url: `products_toggle_published/${id}`,
+          method: 'PUT',
+          body: {
+            published: published,
+          },
+        }),
+        invalidatesTags: ['products'],
+      }),
+      postProduct: builder.mutation({
+        query: (body) => ({
+          url: 'products',
+          method: 'POST',
+          body: body,
+        }),
+        invalidatesTags: ['products'],
+      }),
+      deleteProduct: builder.mutation({
+        query: (id) => ({
+          url: `products/${id}`,
+          method: 'DELETE',
+        }),
+        invalidatesTags: ['products'],
+      }),
+      getCoupons: builder.query({
+        query: (query) => `coupons?${query}`,
+        providesTags: (result) => providesList(result, 'coupons'),
+      }),
+
       postCoupon: builder.mutation({
         query: (body) => ({
           url: 'coupons',
@@ -68,9 +109,14 @@ export const productsApi = createApi({
 
 export const {
   useGetBannersQuery,
-  useGetProductsQuery,
-  useGetCouponsQuery,
   usePostBannerMutation,
+  useUpdateBannerMutation,
+  useDeleteBannerMutation,
+  useGetProductsQuery,
+  usePublishedProductsMutation,
+  usePostProductMutation,
+  useDeleteProductMutation,
+  useGetCouponsQuery,
   usePostCouponMutation,
   usePublishedCouponsMutation,
   useUpdateCouponsMutation,

@@ -2,20 +2,11 @@ import { useMemo, useState } from 'react';
 import Table from '@/components/(ui)/table/table';
 import FilterOrders from '@/components/pages/orders/filter_orders';
 import { useGetOrdersQuery } from '@/services/redux/features/orders';
-import { Order } from '@/types/type';
-import NotFoundOrders from '@/components/(ui)/not-found-item/not_found_item';
+import { HandleFilterFunction, Order } from '@/types/type';
 import { useTranslation } from 'react-i18next';
 import Orders from '@/components/pages/orders/orders';
 import { SVG } from '@/enum/Enum';
-
-type HandleFilterFunction = (
-  search: string,
-  currStatus: string,
-  ordersLimit: number | string,
-  method: string,
-  startDate: string,
-  endDate: string
-) => void;
+import NotFoundItem from '@/components/(ui)/not-found-item/not_found_item';
 const OrdersViews = () => {
   const { t, i18n } = useTranslation('translation');
   const [page, setPage] = useState(1);
@@ -44,20 +35,29 @@ const OrdersViews = () => {
     startDate,
     endDate
   ) => {
-    setSearch(search);
-    setCurrStatus(status);
-    setOrdersLimit(ordersLimit);
-    setMethod(method);
-    setStartDate(startDate);
-    setEndDate(endDate);
+    search && setSearch(search);
+    status && setCurrStatus(status);
+    ordersLimit && setOrdersLimit(ordersLimit);
+    method && setMethod(method);
+    startDate && setStartDate(startDate);
+    endDate && setEndDate(endDate);
   };
-  const handleChangePage = (p: number) => {
+  const handlePageChange = (p: number) => {
     setPage(p);
+  };
+  const handleReset = () => {
+    setPage(1);
+    setSearch('');
+    setCurrStatus('');
+    setOrdersLimit('');
+    setStartDate('');
+    setEndDate('');
+    setMethod('');
   };
   return (
     <>
       <h2 className='text-lg font-bold'>{t('orders')}</h2>
-      <FilterOrders handleFilter={handleFilter} />
+      <FilterOrders handleReset={handleReset} handleFilter={handleFilter} />
       <section className='flex flex-col gap-[40px] pb-16'>
         {isSuccessOrders && ordersData.orders.length > 0 && (
           <Table
@@ -73,11 +73,12 @@ const OrdersViews = () => {
             ]}
             renderedData={renderedOrders}
             totalPage={ordersData.totalPage}
-            handleChangePage={handleChangePage}
+            handlePageChange={handlePageChange}
+            currPage={page}
           />
         )}
         {isSuccessOrders && ordersData.orders.length === 0 && (
-          <NotFoundOrders
+          <NotFoundItem
             color='text-red'
             img={SVG.order}
             message={t('message_no_order')}

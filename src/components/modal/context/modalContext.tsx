@@ -1,3 +1,4 @@
+import { Banner } from '@/types/type';
 import {
   createContext,
   useContext,
@@ -23,7 +24,10 @@ type InitialState = {
   visibleAddCouponModal: boolean;
   visibleAlertModal: AlertModalState;
   visibleAddBannerModal: boolean;
+  visibleUpdateBannerModal: Banner;
   visibleAddCategoryModal: boolean;
+  visibleAddTagModal: boolean;
+  visibleAddProductModal: boolean;
 };
 const SET_VISIBLE_MODAL = 'SET_VISIBLE_MODAL';
 const CLOSE_ALL_MODAL = 'CLOSE_ALL_MODAL';

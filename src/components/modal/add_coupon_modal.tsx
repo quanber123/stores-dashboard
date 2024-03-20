@@ -101,7 +101,7 @@ const AddCouponModal = () => {
         setErrValidate(true);
       }
     },
-    [form, isSuccessCategories, isSuccessTags, categoriesData, tagsData]
+    [postCoupon, form, selectedFile]
   );
   const handleChangeForm = useCallback(
     (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -185,7 +185,7 @@ const AddCouponModal = () => {
     setSelectedFile(null);
     setSelectedImage(null);
     setVisibleModal('visibleAddCouponModal');
-    setErrValidate(false);
+    setErrValidate((prevState) => (prevState = false));
   }, []);
   useEffect(() => {
     if (isSuccessPostCoupon) {

@@ -2,8 +2,9 @@ import React, { useCallback, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 type Props = {
   handleFilter: any;
+  handleReset: () => void;
 };
-const FilterCustomer: React.FC<Props> = ({ handleFilter }) => {
+const FilterCustomer: React.FC<Props> = ({ handleFilter, handleReset }) => {
   const { t } = useTranslation('translation');
   const [currProvider, setCurrProvider] = useState('oauth');
   const searchRef = useRef<HTMLInputElement | null>(null);
@@ -19,12 +20,11 @@ const FilterCustomer: React.FC<Props> = ({ handleFilter }) => {
 
   const reset = useCallback(() => {
     setCurrProvider('oauth');
-    handleFilter('oauth', null);
     if (searchRef.current) {
       searchRef.current.value = '';
     }
-  }, [currProvider, searchRef.current?.value]);
-
+    handleReset();
+  }, []);
   return (
     <section className='flex flex-col gap-[40px]'>
       <div className='w-full rounded-lg bg-white dark:bg-darkGray px-4 py-6 grid gap-4 lg:gap-6 xl:gap-6 md:flex xl:flex'>

@@ -17,32 +17,43 @@ import { useGetCategoriesQuery } from '@/services/redux/features/label';
 import { Category } from '@/types/type';
 import { validateImage, validateString } from '@/services/utils/validate';
 import ErrValidate from '../(ui)/err-validate/err-validate';
-import { usePostBannerMutation } from '@/services/redux/features/products';
+import { useUpdateBannerMutation } from '@/services/redux/features/products';
 import { SVG } from '@/enum/Enum';
 type Form = {
   content: string;
   sub_content: string;
   category: string;
 };
-const AddBannerModal = () => {
+const UpdateBannerModal = () => {
   const { t } = useTranslation('translation');
-  const [errValidate, setErrValidate] = useState(false);
   const { state, setVisibleModal } = useContext(ModalContext);
-  const [modalRef, handleClickOutside] = useCloseModal('visibleAddBannerModal');
+  const [modalRef, handleClickOutside] = useCloseModal(
+    'visibleUpdateBannerModal'
+  );
+  const banner = state.visibleUpdateBannerModal;
+  const [errValidate, setErrValidate] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const imgRef = useRef<HTMLInputElement | null>(null);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const { data: categoriesData, isSuccess: isSuccessCategories } =
     useGetCategoriesQuery(null);
   const [
-    postBanner,
-    { isLoading: isLoadingPostBanner, isSuccess: isSuccessPostBanner },
-  ] = usePostBannerMutation();
+    updateBanner,
+    { isLoading: isLoadingUpdateBanner, isSuccess: isSuccessUpdateBanner },
+  ] = useUpdateBannerMutation();
   const [form, setForm] = useState<Form>({
     content: '',
     sub_content: '',
     category: '',
   });
+  useEffect(() => {
+    setForm({
+      content: banner?.content,
+      sub_content: banner?.sub_content,
+      category: banner?.category?.name,
+    });
+    setSelectedImage(banner?.image);
+  }, [state.visibleUpdateBannerModal]);
   const renderedCategories = useMemo(() => {
     return (
       isSuccessCategories &&
@@ -59,7 +70,6 @@ const AddBannerModal = () => {
     async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       if (
-        validateImage(selectedFile) ||
         validateString(form.content) ||
         validateString(form.sub_content) ||
         validateString(form.category)
@@ -68,16 +78,16 @@ const AddBannerModal = () => {
         const category = categoriesData.find(
           (c: Category) => c.name === form.category
         );
-        data.append('image', selectedFile as File);
+        selectedFile && data.append('image', selectedFile as File);
         data.append('content', form.content);
         data.append('sub_content', form.sub_content);
         data.append('category', category._id);
-        await postBanner(data);
+        await updateBanner({ id: banner._id, body: data });
       } else {
         setErrValidate(true);
       }
     },
-    [form, postBanner, selectedFile]
+    [form, updateBanner, selectedFile]
   );
   const handleChangeForm = useCallback(
     (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -113,7 +123,6 @@ const AddBannerModal = () => {
     [handleUploadImg, selectedFile]
   );
   const closeModal = useCallback(() => {
-    console.log('click');
     setForm({
       content: '',
       sub_content: '',
@@ -121,21 +130,21 @@ const AddBannerModal = () => {
     });
     setSelectedFile(null);
     setSelectedImage(null);
-    setVisibleModal('visibleAddBannerModal');
-    setErrValidate(false);
-  }, [setVisibleModal]);
+    setVisibleModal('visibleUpdateBannerModal');
+    setErrValidate((prevState) => (prevState = false));
+  }, []);
   useEffect(() => {
-    if (isSuccessPostBanner) {
+    if (isSuccessUpdateBanner) {
       closeModal();
     }
-  }, [isSuccessPostBanner]);
+  }, [isSuccessUpdateBanner]);
   return (
     <Modal>
       <section
         style={{
           backgroundColor: 'rgba(0,0,0,0.5)',
           transition: 'transform 0.2s ease',
-          transform: state.visibleAddBannerModal
+          transform: state.visibleUpdateBannerModal
             ? 'translateX(0)'
             : 'translateX(100%)',
         }}
@@ -149,8 +158,8 @@ const AddBannerModal = () => {
         >
           <div className='bg-white dark:bg-darkBlue p-6 flex justify-between items-center'>
             <div className='flex flex-col gap-[8px]'>
-              <p className='text-xl'>{t('add_banner')}</p>
-              <p className='text-sm'>{t('mess_add_banner')}</p>
+              <p className='text-xl'>{t('update_banner')}</p>
+              <p className='text-sm'>{t('mess_update_banner')}</p>
             </div>
             <button
               className='bg-white rounded-full text-red p-3 shadow-md hover:bg-[#FCC8D1] hover:text-darkGray transition-all'
@@ -276,19 +285,19 @@ const AddBannerModal = () => {
               title={`${t('cancel_btn')}`}
               style={{ transition: 'all 0.2s linear' }}
               className={`w-full h-[48px] py-2 px-4 rounded-md flex justify-center items-center border border-lightGray dark:border-darkGray bg-[#fff] hover:bg-[#FCC8D1] text-red dark:bg-darkGray dark:text-gray dark:hover:bg-darkGray dark:hover:text-darkRed ${
-                isLoadingPostBanner ? 'cursor-not-allowed' : 'cursor-pointer'
+                isLoadingUpdateBanner ? 'cursor-not-allowed' : 'cursor-pointer'
               }`}
               func={closeModal}
-              disabled={isLoadingPostBanner}
+              disabled={isLoadingUpdateBanner}
             />
             <ActionButton
               type='submit'
-              title={`${t('add_banner')}`}
+              title={`${t('update_banner')}`}
               style={{ transition: 'all 0.2s linear' }}
               className={`w-full h-[48px] py-2 px-4 rounded-md flex justify-center items-center bg-lightGreen hover:bg-darkGreen text-white ${
-                isLoadingPostBanner ? 'cursor-not-allowed' : 'cursor-pointer'
+                isLoadingUpdateBanner ? 'cursor-not-allowed' : 'cursor-pointer'
               }`}
-              disabled={isLoadingPostBanner}
+              disabled={isLoadingUpdateBanner}
             />
           </div>
         </form>
@@ -297,4 +306,4 @@ const AddBannerModal = () => {
   );
 };
 
-export default AddBannerModal;
+export default UpdateBannerModal;

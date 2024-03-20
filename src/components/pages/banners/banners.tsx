@@ -1,11 +1,13 @@
+import { ModalContext } from '@/components/modal/context/modalContext';
 import { Banner } from '@/types/type';
-import React from 'react';
+import React, { useContext } from 'react';
 import { FaRegTrashCan, FaRegPenToSquare } from 'react-icons/fa6';
 type Props = {
   banner: Banner;
 };
 const Banners: React.FC<Props> = ({ banner }) => {
   const { id, image, content, sub_content, category } = banner;
+  const { state, setVisibleModal } = useContext(ModalContext);
   return (
     <tr className='text-center text-grays text-sm border-t border-b border-lightGray dark:border-darkGray font-bold'>
       <td className='p-4'>{id}</td>
@@ -24,12 +26,17 @@ const Banners: React.FC<Props> = ({ banner }) => {
           <button
             className='text-lg flex justify-center items-center hover:text-green transition-colors'
             aria-label='update-btn'
+            onClick={() =>
+              setVisibleModal({
+                visibleUpdateBannerModal: banner,
+              })
+            }
           >
             <FaRegPenToSquare />
           </button>
           <button
             className='text-lg flex justify-center items-center hover:text-red transition-colors'
-            aria-label='update-btn'
+            aria-label='delete-btn'
           >
             <FaRegTrashCan />
           </button>
