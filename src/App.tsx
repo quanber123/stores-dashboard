@@ -36,7 +36,10 @@ const App = () => {
   return (
     <Suspense fallback={<LoadingViews />}>
       <Header toggleAside={toggleAside} handleToggle={handleToggle} />
-      <Aside toggleAside={toggleAside} />
+      <Aside
+        toggleAside={toggleAside}
+        closeAside={() => setToggleAside(false)}
+      />
       <main className='w-full h-full lg:ml-[256px] mt-[64px] py-8 px-4 lg:px-16 flex flex-col gap-[40px] dark:bg-darkBlue text-darkGray dark:text-white overflow-y-scroll'>
         <Outlet />
       </main>

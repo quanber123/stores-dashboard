@@ -1,5 +1,11 @@
+import ComingSoon from '@/components/pages/comming-soon/coming_soon';
+
 const SettingsViews = () => {
-  return <div>SettingsViews</div>;
+  return (
+    <>
+      <ComingSoon />
+    </>
+  );
 };
 
 export default SettingsViews;

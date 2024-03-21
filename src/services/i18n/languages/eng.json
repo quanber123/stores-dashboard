@@ -161,5 +161,6 @@
   "generate_variants": "Generate variants",
   "mess_add_color": "Enter Color",
   "mess_add_size": "Enter Size",
-  "mess_add_quantity": "Enter Quantity"
+  "mess_add_quantity": "Enter Quantity",
+  "coming_soon": "Coming Soon!"
 }

@@ -1,18 +1,20 @@
 import { useCallback, useState } from 'react';
 import { TbChevronRight } from 'react-icons/tb';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { catalog } from './data';
 import { useTranslation } from 'react-i18next';
 import engFlag from '@/assets/united-kingdom.png';
 import vieFlag from '@/assets/vietnam.png';
 type Props = {
   toggleAside: boolean;
+  closeAside: () => void;
 };
-const Aside: React.FC<Props> = ({ toggleAside }) => {
+const Aside: React.FC<Props> = ({ toggleAside, closeAside }) => {
   const { t, i18n } = useTranslation('translation');
-  const [currRouter, setCurrRouter] = useState('dashboard');
+  const location = useLocation();
+  const currRoute = location.pathname.split('/')[1];
   const navigate = useNavigate();
-  const [dropdown, setDropdown] = useState<null | string>(null);
+  const [dropdown, setDropdown] = useState<string>('');
   const handleChangeLang = useCallback(
     (lang: string) => {
       i18n.changeLanguage(lang);
@@ -23,13 +25,13 @@ const Aside: React.FC<Props> = ({ toggleAside }) => {
   const handleRouter = (isDropdown: boolean, link: string) => {
     if (isDropdown) {
       if (link === dropdown) {
-        setDropdown(null);
+        setDropdown('');
       } else {
         setDropdown(link);
       }
     } else {
-      setCurrRouter(link);
       navigate(link);
+      window.innerWidth < 1024 && closeAside();
     }
   };
   const renderCatalog = catalog.map((c) => {
@@ -37,13 +39,13 @@ const Aside: React.FC<Props> = ({ toggleAside }) => {
       <div
         key={c.name}
         className={`relative flex flex-col justify-center gap-[20px] py-4 px-8 ${
-          c.link === currRouter
+          c.link === currRoute || c.dropdown.includes(currRoute)
             ? 'dark:text-green text-green'
             : 'dark:text-lightGray'
         } cursor-pointer`}
         onClick={() => handleRouter(c.isDropdown, c.link)}
       >
-        {currRouter === c.link && (
+        {(currRoute === c.link || c.dropdown.includes(currRoute)) && (
           <span
             className={`absolute left-0 h-full border-green border-2 rounded-tr-[8px] rounded-br-[8px]`}
           ></span>
@@ -66,10 +68,10 @@ const Aside: React.FC<Props> = ({ toggleAside }) => {
               return (
                 <li
                   className='flex text-darkGray dark:text-lightGray opacity-80 hover:opacity-100 transition-opacity'
-                  key={d.name}
-                  onClick={() => handleRouter(false, d.link)}
+                  key={d}
+                  onClick={() => handleRouter(false, d)}
                 >
-                  - {t(`${d.name}`)}
+                  - {t(`${d}`)}
                 </li>
               );
             })}
