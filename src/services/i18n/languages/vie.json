@@ -162,5 +162,7 @@
   "mess_add_color": "Nhập màu sắc",
   "mess_add_size": "Nhập kích cỡ",
   "mess_add_quantity": "Nhập số lượng",
-  "coming_soon": "Sớm ra mắt!"
+  "coming_soon": "Sớm ra mắt!",
+  "edit_profile": "Sửa hồ sơ",
+  "logout": "Đăng xuất"
 }

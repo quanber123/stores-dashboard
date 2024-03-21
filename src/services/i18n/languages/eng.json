@@ -162,5 +162,7 @@
   "mess_add_color": "Enter Color",
   "mess_add_size": "Enter Size",
   "mess_add_quantity": "Enter Quantity",
-  "coming_soon": "Coming Soon!"
+  "coming_soon": "Coming Soon!",
+  "edit_profile": "Edit Profile",
+  "logout": "Log Out"
 }

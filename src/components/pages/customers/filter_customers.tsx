@@ -30,7 +30,7 @@ const FilterCustomer: React.FC<Props> = ({ handleFilter, handleReset }) => {
       <div className='w-full rounded-lg bg-white dark:bg-darkGray px-4 py-6 grid gap-4 lg:gap-6 xl:gap-6 md:flex xl:flex'>
         <div className='w-full h-[48px]'>
           <select
-            className='w-full h-full capitalize font-medium px-2 py-1 bg-white text-darkGray dark:bg-darkBlue dark:text-lightGray'
+            className='w-full h-full capitalize font-medium px-2 py-1 text-darkGray dark:bg-darkBlue dark:text-lightGray'
             onChange={handleChangeProvider}
             value={currProvider}
           >

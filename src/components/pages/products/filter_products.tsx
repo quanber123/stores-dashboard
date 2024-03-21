@@ -121,7 +121,7 @@ const FilterProducts: React.FC<Props> = ({ handleFilter, handleReset }) => {
         <div className='w-full h-[48px]'>
           <select
             name='category'
-            className='w-full h-full capitalize font-medium px-2 py-1 bg-white text-darkGray dark:bg-darkBlue dark:text-lightGray focus:outline-none rounded'
+            className='w-full h-full capitalize font-medium px-2 py-1 text-darkGray dark:bg-darkBlue dark:text-lightGray focus:outline-none rounded'
             onChange={handleChange}
             value={query.category}
           >
@@ -134,7 +134,7 @@ const FilterProducts: React.FC<Props> = ({ handleFilter, handleReset }) => {
         <div className='w-full h-[48px]'>
           <select
             name='tag'
-            className='w-full h-full capitalize font-medium px-2 py-1 bg-white text-darkGray dark:bg-darkBlue dark:text-lightGray focus:outline-none rounded'
+            className='w-full h-full capitalize font-medium px-2 py-1 text-darkGray dark:bg-darkBlue dark:text-lightGray focus:outline-none rounded'
             onChange={handleChange}
             value={query.tag}
           >
@@ -146,7 +146,7 @@ const FilterProducts: React.FC<Props> = ({ handleFilter, handleReset }) => {
       <div className='w-full h-[48px]'>
         <select
           name='sort'
-          className='w-full h-full capitalize font-medium px-2 py-1 bg-white text-darkGray dark:bg-darkBlue dark:text-lightGray focus:outline-none rounded'
+          className='w-full h-full capitalize font-medium px-2 py-1 text-darkGray dark:bg-darkBlue dark:text-lightGray focus:outline-none rounded'
           onChange={handleChange}
           value={query.sort}
         >
