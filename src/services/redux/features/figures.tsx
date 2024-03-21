@@ -1,30 +1,57 @@
 import providesList from '@/services/utils/providesList';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 const end_point = import.meta.env.VITE_BACKEND_URL;
+const getAuthToken = () => {
+  return localStorage.getItem('coza-store-dashboard-token');
+};
 export const figuresApi = createApi({
   reducerPath: 'figuresApi',
-  baseQuery: fetchBaseQuery({ baseUrl: `${end_point}` }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: `${end_point}`,
+    prepareHeaders: (headers) => {
+      const token = getAuthToken();
+      if (token) {
+        headers.set('Authorization', `Bearer ${token}`);
+      }
+      return headers;
+    },
+  }),
   tagTypes: ['figures', 'status'],
   endpoints: (builder) => {
     return {
       getStatus: builder.query({
-        query: () => 'status-order',
+        query: () => ({
+          url: 'status-order',
+          method: 'GET',
+        }),
         providesTags: (result) => providesList(result, 'status'),
       }),
       getTotalFiguresCount: builder.query({
-        query: () => 'figures_count',
+        query: () => ({
+          url: 'figures_count',
+          method: 'GET',
+        }),
         providesTags: (result) => providesList(result, 'figures'),
       }),
       getTotalFiguresAmount: builder.query({
-        query: () => 'figures_amount',
+        query: () => ({
+          url: 'figures_amount',
+          method: 'GET',
+        }),
         providesTags: (result) => providesList(result, 'figures'),
       }),
       getWeeklyFigures: builder.query({
-        query: () => 'weekly_figures',
+        query: () => ({
+          url: 'weekly_figures',
+          method: 'GET',
+        }),
         providesTags: (result) => providesList(result, 'figures'),
       }),
       getBestSelling: builder.query({
-        query: () => 'best_selling',
+        query: () => ({
+          url: 'best_selling',
+          method: 'GET',
+        }),
         providesTags: (result) => providesList(result, 'figures'),
       }),
     };

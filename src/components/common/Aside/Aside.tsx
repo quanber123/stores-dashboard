@@ -5,12 +5,15 @@ import { catalog } from './data';
 import { useTranslation } from 'react-i18next';
 import engFlag from '@/assets/united-kingdom.png';
 import vieFlag from '@/assets/vietnam.png';
+import { useAuth } from '@/context/AuthProvider';
+import { FaArrowRightToBracket } from 'react-icons/fa6';
 type Props = {
   toggleAside: boolean;
   closeAside: () => void;
 };
 const Aside: React.FC<Props> = ({ toggleAside, closeAside }) => {
   const { t, i18n } = useTranslation('translation');
+  const [_, setUser] = useAuth();
   const location = useLocation();
   const currRoute = location.pathname.split('/')[1];
   const navigate = useNavigate();
@@ -33,6 +36,10 @@ const Aside: React.FC<Props> = ({ toggleAside, closeAside }) => {
       navigate(link);
       window.innerWidth < 1024 && closeAside();
     }
+  };
+  const handleLogout = () => {
+    localStorage.removeItem('coza-store-dashboard-token');
+    setUser(null);
   };
   const renderCatalog = catalog.map((c) => {
     return (
@@ -86,7 +93,7 @@ const Aside: React.FC<Props> = ({ toggleAside, closeAside }) => {
         transition: 'transform 0.2s linear',
         transform: toggleAside ? 'translateX(0)' : 'translateX(-100%)',
       }}
-      className={`fixed pt-[64px] w-full lg:w-[256px] h-full bg-white dark:bg-darkGray z-10 overflow-hidden`}
+      className={`fixed pt-[64px] w-full lg:w-[256px] h-full bg-white dark:bg-darkGray z-10 overflow-hidden flex flex-col`}
     >
       {renderCatalog}
       <div className='flex flex-col gap-[20px] py-4 px-8 text-darkGray dark:text-white font-bold'>
@@ -108,6 +115,16 @@ const Aside: React.FC<Props> = ({ toggleAside, closeAside }) => {
             <p>{t('vie')}</p>
           </button>
         )}
+      </div>
+      <div className='mt-auto py-4 px-8 my-4'>
+        <button
+          className='bg-green text-white hover:bg-darkGreen transition-colors w-full h-[46px] rounded-md flex items-center justify-center gap-[12px] font-bold'
+          onClick={handleLogout}
+          type='button'
+        >
+          <FaArrowRightToBracket />
+          <p>{t('logout')}</p>
+        </button>
       </div>
     </aside>
   );

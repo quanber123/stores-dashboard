@@ -1,6 +1,7 @@
 import providesList from '@/services/utils/providesList';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 const end_point = import.meta.env.VITE_BACKEND_URL;
+const token = window.localStorage.getItem('coza-store-dashboard-token');
 export const labelApi = createApi({
   reducerPath: 'labelApi',
   baseQuery: fetchBaseQuery({ baseUrl: `${end_point}` }),
@@ -15,6 +16,9 @@ export const labelApi = createApi({
         query: (body) => ({
           url: 'categories',
           method: 'POST',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
           body: body,
         }),
         invalidatesTags: ['categories'],
@@ -24,6 +28,9 @@ export const labelApi = createApi({
           url: `categories/${id}`,
           method: 'PUT',
           body: body,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }),
         invalidatesTags: ['categories'],
       }),
@@ -31,6 +38,9 @@ export const labelApi = createApi({
         query: (id) => ({
           url: `categories/${id}`,
           method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }),
         invalidatesTags: ['categories'],
       }),
@@ -42,6 +52,20 @@ export const labelApi = createApi({
         query: (body) => ({
           url: 'tags',
           method: 'POST',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: body,
+        }),
+        invalidatesTags: ['tags'],
+      }),
+      updateTag: builder.mutation({
+        query: ({ id, body }) => ({
+          url: `tags/${id}`,
+          method: 'PUT',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
           body: body,
         }),
         invalidatesTags: ['tags'],
@@ -50,6 +74,9 @@ export const labelApi = createApi({
         query: (id) => ({
           url: `tags/${id}`,
           method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }),
         invalidatesTags: ['tags'],
       }),

@@ -3,7 +3,9 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 const end_point = import.meta.env.VITE_BACKEND_URL;
 export const usersApi = createApi({
   reducerPath: 'usersApi',
-  baseQuery: fetchBaseQuery({ baseUrl: `${end_point}` }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: `${end_point}`,
+  }),
   tagTypes: ['customers', 'admin'],
   endpoints: (builder) => {
     return {
