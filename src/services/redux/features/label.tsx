@@ -25,6 +25,7 @@ export const labelApi = createApi({
           method: 'PUT',
           body: body,
         }),
+        invalidatesTags: ['categories'],
       }),
       deleteCategory: builder.mutation({
         query: (id) => ({

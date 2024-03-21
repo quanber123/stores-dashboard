@@ -2,6 +2,7 @@ import NotFoundItem from '@/components/(ui)/not-found-item/not_found_item';
 import Table from '@/components/(ui)/table/table';
 import AddCategoryModal from '@/components/modal/add_category_modal';
 import { ModalContext } from '@/components/modal/context/modalContext';
+import UpdateCategoryModal from '@/components/modal/update_category_modal';
 import Categories from '@/components/pages/categores/categories';
 import { useGetCategoriesQuery } from '@/services/redux/features/label';
 import { Category } from '@/types/type';
@@ -24,6 +25,7 @@ const CategoriesViews = () => {
   return (
     <>
       <AddCategoryModal />
+      <UpdateCategoryModal />
       <div className='grid grid-cols-2'>
         <h2 className='text-lg font-bold'>{t('categories')}</h2>
         <button

@@ -61,6 +61,9 @@ const Categories: React.FC<Props> = ({ category }) => {
           <button
             className='text-lg flex justify-center items-center hover:text-green transition-colors'
             aria-label='update-btn'
+            onClick={() =>
+              setVisibleModal({ visibleUpdateCategoryModal: category })
+            }
           >
             <FaRegPenToSquare />
           </button>
