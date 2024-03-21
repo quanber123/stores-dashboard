@@ -4,7 +4,7 @@ const end_point = import.meta.env.VITE_BACKEND_URL;
 export const usersApi = createApi({
   reducerPath: 'usersApi',
   baseQuery: fetchBaseQuery({ baseUrl: `${end_point}` }),
-  tagTypes: ['customers'],
+  tagTypes: ['customers', 'admin'],
   endpoints: (builder) => {
     return {
       getCustomers: builder.query({
@@ -14,8 +14,25 @@ export const usersApi = createApi({
         }),
         providesTags: (result) => providesList(result, 'customers'),
       }),
+      getToken: builder.query({
+        query: (token) => ({
+          url: 'admin',
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }),
+      }),
+      adminLogin: builder.mutation({
+        query: (body) => ({
+          url: 'admin',
+          method: 'POST',
+          body: body,
+        }),
+      }),
     };
   },
 });
 
-export const { useGetCustomersQuery } = usersApi;
+export const { useGetCustomersQuery, useGetTokenQuery, useAdminLoginMutation } =
+  usersApi;

@@ -1,44 +1,55 @@
-import React, { FormEvent, useRef } from 'react';
+import React, { FormEvent, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import loginImg from '@/assets/login-office-CQRYLh9n.jpeg';
 import { useAuth } from '@/context/AuthProvider';
 import { useNavigate } from 'react-router-dom';
+import {
+  useAdminLoginMutation,
+  useGetTokenQuery,
+} from '@/services/redux/features/users';
 const LoginViews = () => {
   const { t } = useTranslation('translation');
   const [_, setUser] = useAuth();
   const navigate = useNavigate();
   const email = useRef<HTMLInputElement>(null);
   const password = useRef<HTMLInputElement>(null);
-  // const [loading, setLoading] = useState(false);
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const [token, setToken] = useState(
+    localStorage.getItem('coza-store-dashboard-token')
+  );
+  const [
+    login,
+    { data: loginData, isSuccess: isSuccessLogin, isLoading: isLoadingLogin },
+  ] = useAdminLoginMutation();
+  const {
+    data: adminData,
+    isSuccess: isSuccessAdminData,
+    isLoading: isLoadingAdminData,
+  } = useGetTokenQuery(token, { skip: !token });
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (email.current && password.current) {
-      const admin = {
-        email: email.current.value,
-        password: email.current.value,
-      };
-      setUser(admin);
+    try {
+      if (email.current && password.current) {
+        await login({
+          email: email.current.value,
+          password: password.current.value,
+        });
+      }
+    } catch (error: any) {
+      console.error('Error submitting data:', error.message);
+    }
+  };
+  useEffect(() => {
+    if (isSuccessLogin) {
+      localStorage.setItem('coza-store-dashboard-token', loginData.token);
+      setToken(loginData?.token);
+    }
+  }, [isSuccessLogin, loginData]);
+  useEffect(() => {
+    if (isSuccessAdminData) {
+      setUser(adminData);
       navigate('/dashboard', { replace: true });
     }
-    // try {
-    //   if (email.current && password.current) {
-    //     setLoading(true);
-    //     const response = await fetch('', {
-    //       method: 'POST',
-    //       headers: {
-    //         'Content-Type': 'application/json',
-    //       },
-    //       body: JSON.stringify(admin),
-    //     });
-    //     if (!response.ok) {
-    //       throw new Error('Failed to submit data');
-    //     }
-    //     setLoading(false);
-    //   }
-    // } catch (error: any) {
-    //   console.error('Error submitting data:', error.message);
-    // }
-  };
+  }, [isSuccessAdminData, adminData]);
   return (
     <main className='bg-darkBlue min-h-[100vh] w-full flex justify-center items-center p-4 lg:p-6 overflow-hidden'>
       <section className='w-full grid lg:grid-cols-2 shadow-xl md:h-auto md:w-1/2 overflow-hidden rounded-lg'>
@@ -78,7 +89,7 @@ const LoginViews = () => {
             <button
               className='h-[48px] bg-darkGreen hover:bg-green transition-colors py-[8px] px-[16px] rounded-lg'
               type='submit'
-              // disabled={loading}
+              disabled={isLoadingLogin || isLoadingAdminData}
             >
               {t('login')}
             </button>

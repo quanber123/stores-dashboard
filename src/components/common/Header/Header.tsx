@@ -1,5 +1,6 @@
 import logo from '@/assets/logo-01.png.webp';
 import darkLogo from '@/assets/logo-02.png.webp';
+import { useAuth } from '@/context/AuthProvider';
 import { useCallback, useEffect, useState } from 'react';
 import { FaRegSun, FaRegMoon, FaRegBell } from 'react-icons/fa6';
 type Props = {
@@ -8,10 +9,11 @@ type Props = {
 };
 const Header: React.FC<Props> = ({ toggleAside, handleToggle }) => {
   const [currTheme, setTheme] = useState(
-    window.localStorage.getItem('cozastore-theme') || 'light'
+    localStorage.getItem('cozastore-theme') || 'light'
   );
+  const [user] = useAuth();
   const toggleTheme = useCallback((theme: string) => {
-    window.localStorage.setItem('cozastore-theme', theme);
+    localStorage.setItem('cozastore-theme', theme);
     setTheme(theme);
   }, []);
   useEffect(() => {
@@ -47,7 +49,7 @@ const Header: React.FC<Props> = ({ toggleAside, handleToggle }) => {
             className='hidden lg:block w-[32px] h-[32px] rounded-full overflow-hidden'
             aria-label='user'
           >
-            <img className='w-full h-full' src={logo} alt='' />
+            <img className='w-full h-full' src={user.image} alt={user.name} />
           </button>
           <div className='lg:hidden flex items-center gap-[10px]'>
             <div
