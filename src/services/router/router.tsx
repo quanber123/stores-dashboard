@@ -10,6 +10,7 @@ const ProductsViews = lazy(() => import('@/views/(logged-in)/ProductsViews'));
 const CategoriesViews = lazy(
   () => import('@/views/(logged-in)/CategoriesViews')
 );
+const TagsViews = lazy(() => import('@/views/(logged-in)/TagsViews'));
 const CustomersViews = lazy(() => import('@/views/(logged-in)/CustomersViews'));
 const CustomerOrdersViews = lazy(
   () => import('@/views/(logged-in)/CustomerOrdersViews')
@@ -44,6 +45,10 @@ const routes: RouteObject[] = [
       {
         path: 'categories',
         element: <CategoriesViews />,
+      },
+      {
+        path: 'tags',
+        element: <TagsViews />,
       },
       {
         path: 'coupons',

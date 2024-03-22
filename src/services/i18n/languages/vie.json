@@ -164,5 +164,6 @@
   "mess_add_quantity": "Nhập số lượng",
   "coming_soon": "Sớm ra mắt!",
   "edit_profile": "Sửa hồ sơ",
-  "logout": "Đăng xuất"
+  "logout": "Đăng xuất",
+  "mess_no_tags": "Chưa có nhãn!"
 }

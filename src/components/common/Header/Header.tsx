@@ -74,8 +74,10 @@ const Header: React.FC<Props> = ({ toggleAside, handleToggle }) => {
             </button>
             <div
               style={{ transition: 'all 0.2s ease' }}
-              className={`w-[224px] absolute right-0 rounded-md p-4 bg-white dark:bg-darkGray text-darkGray dark:text-lightGray flex flex-col gap-[12px] font-bold shadow-xl ${
-                userDropdown ? 'z-[10000] opacity-100' : '-z-50 opacity-0'
+              className={`w-[224px] absolute right-0 rounded-md p-4 bg-white dark:bg-darkGray text-darkGray dark:text-lightGray flex flex-col gap-[12px] font-bold shadow-xl overflow-hidden ${
+                userDropdown
+                  ? 'z-[10000] opacity-100 h-[128px]'
+                  : '-z-50 opacity-0 h-0'
               }`}
             >
               <button

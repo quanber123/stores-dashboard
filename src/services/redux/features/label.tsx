@@ -1,10 +1,19 @@
 import providesList from '@/services/utils/providesList';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { getAuthToken } from '@/services/utils/getAuthToken';
 const end_point = import.meta.env.VITE_BACKEND_URL;
-const token = window.localStorage.getItem('coza-store-dashboard-token');
 export const labelApi = createApi({
   reducerPath: 'labelApi',
-  baseQuery: fetchBaseQuery({ baseUrl: `${end_point}` }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: `${end_point}`,
+    prepareHeaders: (headers) => {
+      const token = getAuthToken();
+      if (token) {
+        headers.set('Authorization', `Bearer ${token}`);
+      }
+      return headers;
+    },
+  }),
   tagTypes: ['categories', 'tags'],
   endpoints: (builder) => {
     return {
@@ -16,9 +25,6 @@ export const labelApi = createApi({
         query: (body) => ({
           url: 'categories',
           method: 'POST',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
           body: body,
         }),
         invalidatesTags: ['categories'],
@@ -28,9 +34,6 @@ export const labelApi = createApi({
           url: `categories/${id}`,
           method: 'PUT',
           body: body,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
         }),
         invalidatesTags: ['categories'],
       }),
@@ -38,9 +41,6 @@ export const labelApi = createApi({
         query: (id) => ({
           url: `categories/${id}`,
           method: 'DELETE',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
         }),
         invalidatesTags: ['categories'],
       }),
@@ -52,9 +52,6 @@ export const labelApi = createApi({
         query: (body) => ({
           url: 'tags',
           method: 'POST',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
           body: body,
         }),
         invalidatesTags: ['tags'],
@@ -63,9 +60,6 @@ export const labelApi = createApi({
         query: ({ id, body }) => ({
           url: `tags/${id}`,
           method: 'PUT',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
           body: body,
         }),
         invalidatesTags: ['tags'],
@@ -74,9 +68,6 @@ export const labelApi = createApi({
         query: (id) => ({
           url: `tags/${id}`,
           method: 'DELETE',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
         }),
         invalidatesTags: ['tags'],
       }),

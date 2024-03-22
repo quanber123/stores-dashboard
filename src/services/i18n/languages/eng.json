@@ -164,5 +164,6 @@
   "mess_add_quantity": "Enter Quantity",
   "coming_soon": "Coming Soon!",
   "edit_profile": "Edit Profile",
-  "logout": "Log Out"
+  "logout": "Log Out",
+  "mess_no_tags": "No Tag Yet!"
 }
