@@ -74,7 +74,7 @@ const RecentOrder = () => {
             <td className='p-4'>
               <select
                 className={`capitalize font-medium px-2 py-1 max-w-[172px] w-full bg-lightGray text-darkGray dark:bg-darkGray dark:text-lightGray rounded ${
-                  o.paymentInfo.status !== 'pending' &&
+                  o.paymentInfo.status !== 'pending' ||
                   o.paymentMethod !== 'transfer'
                     ? 'cursor-not-allowed'
                     : 'cursor-pointer'
