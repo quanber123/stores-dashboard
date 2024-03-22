@@ -101,7 +101,7 @@ const AddCouponModal = () => {
         setErrValidate(true);
       }
     },
-    [postCoupon, form, selectedFile]
+    [postCoupon]
   );
   const handleChangeForm = useCallback(
     (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -466,6 +466,7 @@ const AddCouponModal = () => {
                         <button
                           className='absolute top-1 right-1 border border-red text-red text-[10px] rounded-full p-[2px]'
                           aria-label='remove-tag'
+                          type='button'
                           onClick={() =>
                             setForm((prevForm) => ({
                               ...prevForm,
@@ -493,6 +494,7 @@ const AddCouponModal = () => {
                   className={`relative w-[80px] h-[30px] rounded-[15px] text-base font-bold text-[#fff] ${
                     form.published ? 'bg-green' : 'bg-red'
                   }`}
+                  type='button'
                   onClick={() =>
                     setForm({ ...form, published: !form.published })
                   }
