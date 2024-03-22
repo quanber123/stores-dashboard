@@ -54,14 +54,16 @@ const Orders: React.FC<Props> = ({ order }) => {
       <td className='p-4'>
         <select
           className={`capitalize font-medium px-2 py-1 max-w-[172px] w-full bg-lightGray text-darkGray dark:bg-darkGray dark:text-lightGray rounded ${
-            paymentInfo.status !== 'pending' || paymentMethod !== 'transfer'
+            paymentInfo.status !== 'pending' || paymentMethod === 'transfer'
               ? 'cursor-not-allowed'
               : 'cursor-pointer'
           }`}
           onChange={handleChangeStatus}
           data-id={paymentInfo.orderCode}
           data-user={user}
-          disabled={paymentInfo.status !== 'pending'}
+          disabled={
+            paymentInfo.status !== 'pending' || paymentMethod === 'transfer'
+          }
         >
           {allStatus.map((s) => (
             <option

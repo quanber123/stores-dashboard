@@ -75,14 +75,17 @@ const RecentOrder = () => {
               <select
                 className={`capitalize font-medium px-2 py-1 max-w-[172px] w-full bg-lightGray text-darkGray dark:bg-darkGray dark:text-lightGray rounded ${
                   o.paymentInfo.status !== 'pending' ||
-                  o.paymentMethod !== 'transfer'
+                  o.paymentMethod === 'transfer'
                     ? 'cursor-not-allowed'
                     : 'cursor-pointer'
                 }`}
                 onChange={handleChangeStatus}
                 data-id={o.paymentInfo.orderCode}
                 data-user={o.user}
-                disabled={o.paymentInfo.status !== 'pending'}
+                disabled={
+                  o.paymentInfo.status !== 'pending' ||
+                  o.paymentMethod === 'transfer'
+                }
               >
                 {allStatus?.map((s) => (
                   <option
