@@ -133,7 +133,7 @@ const UpdateBannerModal = () => {
     setSelectedFile(null);
     setSelectedImage(null);
     setVisibleModal('visibleUpdateBannerModal');
-    setErrValidate((prevState) => (prevState = false));
+    setErrValidate(false);
   }, []);
   useEffect(() => {
     if (isSuccessUpdateBanner) {

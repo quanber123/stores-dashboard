@@ -98,7 +98,7 @@ const AddCategoryModal = () => {
     setSelectedFile(null);
     setSelectedImage(null);
     setVisibleModal('visibleAddCategoryModal');
-    setErrValidate((prevState) => (prevState = false));
+    setErrValidate(false);
   }, [setVisibleModal]);
   useEffect(() => {
     if (isSuccessPostCategory) {

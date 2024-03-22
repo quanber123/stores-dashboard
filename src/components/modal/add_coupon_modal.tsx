@@ -185,7 +185,7 @@ const AddCouponModal = () => {
     setSelectedFile(null);
     setSelectedImage(null);
     setVisibleModal('visibleAddCouponModal');
-    setErrValidate((prevState) => (prevState = false));
+    setErrValidate(false);
   }, []);
   useEffect(() => {
     if (isSuccessPostCoupon) {

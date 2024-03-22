@@ -14,7 +14,6 @@ import ActionButton from '../(ui)/button/acction_btn';
 import useCloseModal, { ModalContext } from './context/modalContext';
 import { validateImage, validateString } from '@/services/utils/validate';
 import ErrValidate from '../(ui)/err-validate/err-validate';
-import { useUpdateBannerMutation } from '@/services/redux/features/products';
 import { SVG } from '@/enum/Enum';
 import { useUpdateCategoryMutation } from '@/services/redux/features/label';
 type Form = {

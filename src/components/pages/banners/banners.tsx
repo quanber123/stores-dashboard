@@ -7,7 +7,7 @@ type Props = {
 };
 const Banners: React.FC<Props> = ({ banner }) => {
   const { id, image, content, sub_content, category } = banner;
-  const { state, setVisibleModal } = useContext(ModalContext);
+  const { setVisibleModal } = useContext(ModalContext);
   return (
     <tr className='text-center text-grays text-sm border-t border-b border-lightGray dark:border-darkGray font-bold'>
       <td className='p-4'>{id}</td>

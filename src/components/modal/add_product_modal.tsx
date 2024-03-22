@@ -242,10 +242,10 @@ const AddProductModal = () => {
       variants: [],
     });
     setVisibleModal('visibleAddProductModal');
-    setErrValidate((prevState) => (prevState = false));
+    setErrValidate(false);
     setSelectedImages([]);
     setErrImg('');
-    setErrVariants((prevState) => (prevState = false));
+    setErrVariants(false);
   }, []);
   useEffect(() => {
     if (isSuccessPostProduct) {
